@@ -5,13 +5,14 @@ import {
 } from '../schemas/bankroll.schema';
 
 export const bankrollFactory = {
-  create({ name, initialAmount }: CreateBankrollInput): Bankroll {
+  create({ name, initialAmount, status }: CreateBankrollInput): Bankroll {
     return {
       id: crypto.randomUUID(),
       name,
       initialAmount,
       currentAmount: initialAmount,
       createdAt: new Date().toISOString(),
+      status,
     };
   },
   isValid(bankroll: Bankroll): boolean {
