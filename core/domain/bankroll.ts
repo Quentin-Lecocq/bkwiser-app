@@ -1,4 +1,4 @@
-import { BankrollStatus } from '../constants/bankroll';
+import { BankrollCurrency, BankrollStatus } from '../constants/bankroll';
 
 export type Bankroll = {
   id: string;
@@ -6,5 +6,8 @@ export type Bankroll = {
   initialAmount: number;
   currentAmount: number;
   createdAt: string;
+  updatedAt: string;
   status: BankrollStatus;
+  archivedAt: string | null;
+  currency: BankrollCurrency;
 };

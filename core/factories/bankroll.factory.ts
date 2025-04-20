@@ -5,14 +5,23 @@ import {
 } from '../schemas/bankroll.schema';
 
 export const bankrollFactory = {
-  create({ name, initialAmount, status }: CreateBankrollInput): Bankroll {
+  create({
+    name,
+    initialAmount,
+    status,
+    currency,
+  }: CreateBankrollInput): Bankroll {
+    const today = new Date().toISOString();
     return {
       id: crypto.randomUUID(),
       name,
       initialAmount,
       currentAmount: initialAmount,
-      createdAt: new Date().toISOString(),
+      createdAt: today,
+      updatedAt: today,
       status,
+      archivedAt: null,
+      currency,
     };
   },
   isValid(bankroll: Bankroll): boolean {
@@ -27,6 +36,7 @@ export const bankrollFactory = {
     return {
       ...bankroll,
       currentAmount: bankroll.initialAmount,
+      updatedAt: new Date().toISOString(),
     };
   },
   fromRaw(data: unknown): Bankroll | null {
@@ -34,5 +44,8 @@ export const bankrollFactory = {
     if (!parsed.success) return null;
 
     return bankrollFactory.create(parsed.data);
+  },
+  isArchived(bankroll: Bankroll): boolean {
+    return bankroll.archivedAt !== null;
   },
 };

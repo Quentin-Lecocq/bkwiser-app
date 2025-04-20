@@ -1,6 +1,10 @@
 'use client';
 
-import { BANKROLL_STATUS } from '@/core/constants/bankroll';
+import {
+  BANKROLL_CURRENCY,
+  BANKROLL_STATUS,
+  CURRENCY_SYMBOLS,
+} from '@/core/constants/bankroll';
 import {
   bankrollSchema,
   CreateBankrollInput,
@@ -23,6 +27,7 @@ const CreateBankrollForm = () => {
     resolver: zodResolver(bankrollSchema),
     defaultValues: {
       status: 'private',
+      currency: 'EUR',
     },
   });
 
@@ -68,6 +73,17 @@ const CreateBankrollForm = () => {
         ))}
       </select>
       {errors.status && <p className="text-red-500">{errors.status.message}</p>}
+
+      <select {...register('currency')} className="p-2 border rounded">
+        {BANKROLL_CURRENCY.map((currency) => (
+          <option key={currency} value={currency}>
+            {currency} ({CURRENCY_SYMBOLS[currency]})
+          </option>
+        ))}
+      </select>
+      {errors.currency && (
+        <p className="text-red-500">{errors.currency.message}</p>
+      )}
 
       {error && <p className="text-red-500">{error}</p>}
 
