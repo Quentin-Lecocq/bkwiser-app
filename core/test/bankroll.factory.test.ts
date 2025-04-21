@@ -14,7 +14,6 @@ describe('bankrollFactory', () => {
     expect(bk.currentAmount).toBe(100);
     expect(bk.archivedAt).toBe(null);
   });
-
   it('should reset currentAmount to initialAmout and update updatedAt', async () => {
     const bk = bankrollFactory.create({
       name: 'reset me',
@@ -36,7 +35,6 @@ describe('bankrollFactory', () => {
     expect(reset.currentAmount).toBe(200);
     expect(reset.updatedAt).not.toBe(updated.updatedAt);
   });
-
   it('should validate a correct bankroll', () => {
     const bk = bankrollFactory.create({
       name: 'valid',
@@ -47,7 +45,6 @@ describe('bankrollFactory', () => {
 
     expect(bankrollFactory.isValid(bk)).toBe(true);
   });
-
   it('should invalidate bankroll with empty name', () => {
     const invalid = {
       ...bankrollFactory.create({
@@ -61,7 +58,6 @@ describe('bankrollFactory', () => {
 
     expect(bankrollFactory.isValid(invalid)).toBe(false);
   });
-
   it('should return null for invalid raw input', () => {
     const result = bankrollFactory.fromRaw({
       name: '',
@@ -72,7 +68,6 @@ describe('bankrollFactory', () => {
 
     expect(result).toBeNull();
   });
-
   it('should create bankroll from valid raw input', () => {
     const result = bankrollFactory.fromRaw({
       name: 'Raw',
@@ -83,7 +78,6 @@ describe('bankrollFactory', () => {
     expect(result).not.toBeNull();
     expect(result?.name).toBe('Raw');
   });
-
   it('should detect when a bankroll is archived', () => {
     const bk = bankrollFactory.create({
       name: 'archived',
