@@ -1,10 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createBankrollDB, getBankrollsDB } from './actions';
+import { createBankrollDB, getBankrollByIdDB, getBankrollsDB } from './actions';
 
 export function useBankrolls() {
   return useQuery({
     queryKey: ['bankrolls'],
     queryFn: getBankrollsDB,
+  });
+}
+
+export function useBankroll(id: string) {
+  return useQuery({
+    queryKey: ['bankroll', id],
+    queryFn: () => getBankrollByIdDB(id),
   });
 }
 

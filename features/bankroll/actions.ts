@@ -24,6 +24,16 @@ export async function createBankrollDB(data: {
   }
 }
 
+export async function getBankrollByIdDB(id: string): Promise<Bankroll> {
+  const res = await fetch(`/api/bankroll/${id}`);
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch bankroll');
+  }
+
+  return res.json();
+}
+
 export async function getBankrollsDB() {
   const res = await fetch(`/api/bankroll`, {
     cache: 'no-store',
