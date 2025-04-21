@@ -29,14 +29,14 @@ export const bankrollService = {
     const existing = await bankrollRepository.getById(id);
     if (!existing) return null;
 
-    const archived = {
+    const now = new Date().toISOString();
+    const archived: Bankroll = {
       ...existing,
-      archivedDate: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      archivedAt: now,
+      updatedAt: now,
     };
 
     await bankrollRepository.update(archived);
-
     return archived;
   },
 };

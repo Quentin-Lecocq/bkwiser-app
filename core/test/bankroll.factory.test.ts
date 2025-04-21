@@ -29,7 +29,7 @@ describe('bankrollFactory', () => {
     };
 
     // pause 1ms to avoid same timestamp
-    await sleep(1);
+    await sleep(2);
 
     const reset = bankrollFactory.reset(updated);
 
