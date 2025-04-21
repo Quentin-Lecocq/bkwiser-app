@@ -23,3 +23,16 @@ export async function POST(request: NextRequest) {
     });
   }
 }
+
+export async function GET() {
+  try {
+    const bankrolls = await bankrollService.getAll();
+
+    return NextResponse.json(bankrolls, { status: 201 });
+  } catch (error) {
+    console.error('Error in GET /api/bankroll', error);
+    return new NextResponse(JSON.stringify({ error: 'Something went wrong' }), {
+      status: 500,
+    });
+  }
+}

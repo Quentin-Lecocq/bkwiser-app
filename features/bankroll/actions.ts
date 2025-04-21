@@ -23,3 +23,12 @@ export async function createBankrollDB(data: {
     throw new Error('Network error: ' + (error as Error).message);
   }
 }
+
+export async function getBankrollsDB() {
+  const res = await fetch(`/api/bankroll`, {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) throw new Error('Failed to fetch bankrolls');
+  return res.json();
+}

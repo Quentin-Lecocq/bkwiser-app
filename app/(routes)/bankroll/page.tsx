@@ -1,12 +1,8 @@
-import React from 'react';
+import BankrollList from '@/features/bankroll/components/bankroll-list';
+import { FC } from 'react';
 
-const BankrollPage: React.FC = () => {
-  return (
-    <div>
-      <h1>Bankroll</h1>
-      <p>Welcome to the Bankroll page!</p>
-    </div>
-  );
+const BankrollPage: FC = () => {
+  return <BankrollList />;
 };
 
 export default BankrollPage;
