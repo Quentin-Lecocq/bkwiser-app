@@ -1,9 +1,9 @@
 'use client';
 
 import {
-  BANKROLL_CURRENCY,
+  BANKROLL_CURRENCIES,
   BANKROLL_STATUS,
-  CURRENCY_SYMBOLS,
+  CURRENCIES_SYMBOLS,
 } from '@/core/constants/bankroll';
 import {
   bankrollSchema,
@@ -75,9 +75,9 @@ const CreateBankrollForm = () => {
       {errors.status && <p className="text-red-500">{errors.status.message}</p>}
 
       <select {...register('currency')} className="p-2 border rounded">
-        {BANKROLL_CURRENCY.map((currency) => (
+        {BANKROLL_CURRENCIES.map((currency) => (
           <option key={currency} value={currency}>
-            {currency} ({CURRENCY_SYMBOLS[currency]})
+            {currency} ({CURRENCIES_SYMBOLS[currency]})
           </option>
         ))}
       </select>
