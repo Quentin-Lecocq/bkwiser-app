@@ -10,13 +10,13 @@ import {
   CreateBankrollInput,
 } from '@/core/schemas/bankroll.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { createBankrollDB } from '../actions';
+import { useCreateBankroll } from '../hooks';
 
 const CreateBankrollForm = () => {
-  const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const { mutate, isPending, error } = useCreateBankroll();
 
   const {
     register,
@@ -32,15 +32,11 @@ const CreateBankrollForm = () => {
   });
 
   function onSubmit(data: CreateBankrollInput) {
-    setError(null);
-
-    startTransition(async () => {
-      try {
-        await createBankrollDB(data);
+    mutate(data, {
+      onSuccess: () => {
         reset();
-      } catch (error: any) {
-        setError(error.message || 'Error during create bankroll');
-      }
+        router.push('/bankroll');
+      },
     });
   }
 
@@ -85,7 +81,7 @@ const CreateBankrollForm = () => {
         <p className="text-red-500">{errors.currency.message}</p>
       )}
 
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500">{error.message}</p>}
 
       <button
         type="submit"
