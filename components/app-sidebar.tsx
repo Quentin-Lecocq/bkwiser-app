@@ -31,11 +31,11 @@ const data = {
       items: [
         {
           title: 'All Bankrolls',
-          url: '/bankroll',
+          url: '/bankrolls',
         },
         {
           title: 'Create Bankroll',
-          url: '/bankroll/new',
+          url: '/bankrolls/new',
         },
       ],
     },

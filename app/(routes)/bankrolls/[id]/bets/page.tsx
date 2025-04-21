@@ -1,4 +1,5 @@
-import { Button } from '@/components/ui/button';
+import GoBackButton from '@/components/go-back';
+import UIButton from '@/components/ui-button';
 import Link from 'next/link';
 
 export default async function Page({
@@ -9,13 +10,13 @@ export default async function Page({
   const { id } = await params;
   return (
     <div>
-      <p>Bet of bankroll {id}</p>
+      <GoBackButton />
+      <main className="py-4">
+        <p>Bet of bankroll {id}</p>
+      </main>
       <div className="flex gap-2">
-        <Link href={`/bankroll/${id}`}>
-          <Button className="cursor-pointer">Go back on bankroll</Button>
-        </Link>
         <Link href="/bankroll">
-          <Button className="cursor-pointer">All bankrolls</Button>
+          <UIButton label="All bankrolls" />
         </Link>
       </div>
     </div>

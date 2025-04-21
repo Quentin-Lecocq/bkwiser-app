@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { Bankroll } from '@/core/domain/bankroll';
 import Link from 'next/link';
 import { useBankrolls } from '../hooks';
@@ -14,13 +15,15 @@ const BankrollList = () => {
     <div>
       <h1>My bankrolls</h1>
       <ul>
-        {data.map((bk: Bankroll) => (
-          <li className="flex gap-4" key={bk.id}>
+        {data.map(({ id, name, currency, currentAmount }: Bankroll) => (
+          <li className="flex items-center gap-4 mb-4" key={id}>
             <span>
-              {bk.name} - {bk.currentAmount} {bk.currency}
+              {name} - {currentAmount} {currency}
             </span>
-            <Link href={`/bankroll/${bk.id}`}>
-              <button className="cursor-pointer">edit</button>
+            <Link href={`/bankrolls/${id}`}>
+              <Button className="cursor-pointer" variant="link" size="sm">
+                edit
+              </Button>
             </Link>
           </li>
         ))}

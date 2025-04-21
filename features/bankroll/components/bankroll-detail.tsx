@@ -19,10 +19,10 @@ const BankrollDetails: FC<BankrollDetailsProps> = ({ id }) => {
   if (!data) return null;
 
   return (
-    <div className="p-6 rounded-lg border border-gray-200 shadow-sm bg-white">
-      <h3 className="text-xl font-semibold text-gray-800">{data.name}</h3>
+    <div className="p-6 rounded-lg border shadow-sm bg-secondary">
+      <h3 className="text-xl font-semibold">{data.name}</h3>
 
-      <div className="mt-4 flex flex-col gap-1 text-sm text-gray-700">
+      <div className="mt-4 flex flex-col gap-1 text-sm">
         <p>
           <span className="font-medium">Status:</span> {data.status}
         </p>
