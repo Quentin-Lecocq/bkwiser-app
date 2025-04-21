@@ -3,10 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   try {
-    const bankroll = await bankrollService.getById(params.id);
+    const bankroll = await bankrollService.getById(id);
     return NextResponse.json(bankroll, { status: 200 });
   } catch (error) {
     console.error('Error in GET /api/bankroll/id', error);
