@@ -28,7 +28,7 @@ export async function GET() {
   try {
     const bankrolls = await bankrollService.getAll();
 
-    return NextResponse.json(bankrolls, { status: 201 });
+    return NextResponse.json(bankrolls, { status: 200 });
   } catch (error) {
     console.error('Error in GET /api/bankroll', error);
     return new NextResponse(JSON.stringify({ error: 'Something went wrong' }), {
