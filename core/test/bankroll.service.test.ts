@@ -1,5 +1,5 @@
+import type { Bankroll as PrismaBankroll } from '@prisma/client';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { Bankroll } from '../domain/bankroll';
 import { bankrollRepository } from '../repositories/bankroll.repository';
 import { CreateBankrollInput } from '../schemas/bankroll.schema';
 import { bankrollService } from '../services/bankroll.service';
@@ -42,13 +42,13 @@ describe('bankrollService', () => {
     expect(bankrollRepository.create).toHaveBeenCalledWith(bankroll);
   });
   it('should reset a bankroll when it exists', async () => {
-    const initial: Bankroll = {
+    const initial: PrismaBankroll = {
       id: 'bk1',
       name: 'Resettable BK',
       initialAmount: 150,
       currentAmount: 50,
-      createdAt: '2024-01-01T00:00:00.000Z',
-      updatedAt: '2024-01-05T00:00:00.000Z',
+      createdAt: new Date('2024-01-01T00:00:00Z'),
+      updatedAt: new Date('2024-01-01T00:00:00Z'),
       status: 'private',
       currency: 'EUR',
       archivedAt: null,
@@ -77,13 +77,13 @@ describe('bankrollService', () => {
     const now = new Date().toISOString();
     vi.setSystemTime(new Date(now));
 
-    const initial: Bankroll = {
+    const initial: PrismaBankroll = {
       id: 'bk2',
       name: 'Archivable BK',
       initialAmount: 500,
       currentAmount: 300,
-      createdAt: '2024-01-01T00:00:00.000Z',
-      updatedAt: '2024-03-01T00:00:00.000Z',
+      createdAt: new Date('2024-01-01T00:00:00Z'),
+      updatedAt: new Date('2024-03-01T00:00:00Z'),
       status: 'public',
       currency: 'EUR',
       archivedAt: null,
@@ -99,14 +99,14 @@ describe('bankrollService', () => {
     expect(mockedRepo.update).toHaveBeenCalledWith(result);
   });
   it('should return a list of bankrolls from the repository', async () => {
-    const mockList: Bankroll[] = [
+    const mockList: PrismaBankroll[] = [
       {
         id: 'bk1',
         name: 'Bankroll 1',
         initialAmount: 100,
         currentAmount: 100,
-        createdAt: '2025-01-01T00:00:00Z',
-        updatedAt: '2025-01-01T00:00:00Z',
+        createdAt: new Date('2025-01-01T00:00:00Z'),
+        updatedAt: new Date('2025-01-01T00:00:00Z'),
         archivedAt: null,
         status: 'private',
         currency: 'EUR',
@@ -116,8 +116,8 @@ describe('bankrollService', () => {
         name: 'Bankroll 2',
         initialAmount: 200,
         currentAmount: 150,
-        createdAt: '2025-02-01T00:00:00Z',
-        updatedAt: '2025-02-01T00:00:00Z',
+        createdAt: new Date('2025-02-01T00:00:00Z'),
+        updatedAt: new Date('2025-02-01T00:00:00Z'),
         archivedAt: null,
         status: 'public',
         currency: 'USD',
@@ -134,19 +134,23 @@ describe('bankrollService', () => {
     expect(mockedRepo.getAll).toHaveBeenCalled();
   });
   it('should return a bankroll from getById', async () => {
-    const mockBankroll: Bankroll = {
+    const mockBankroll = {
       id: 'bk-id',
       name: 'My BK',
       initialAmount: 100,
       currentAmount: 100,
-      createdAt: '2025-01-01T00:00:00Z',
-      updatedAt: '2025-01-01T00:00:00Z',
+      createdAt: '2025-01-01T00:00:00.000Z',
+      updatedAt: '2025-01-01T00:00:00.000Z',
       status: 'private',
       archivedAt: null,
       currency: 'EUR',
     };
 
-    mockedRepo.getById.mockResolvedValue(mockBankroll);
+    mockedRepo.getById.mockResolvedValue({
+      ...mockBankroll,
+      createdAt: new Date(mockBankroll.createdAt),
+      updatedAt: new Date(mockBankroll.updatedAt),
+    });
 
     const result = await bankrollService.getById('bk-id');
 

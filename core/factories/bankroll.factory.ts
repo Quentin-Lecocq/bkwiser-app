@@ -5,23 +5,18 @@ import {
 } from '../schemas/bankroll.schema';
 
 export const bankrollFactory = {
-  create({
-    name,
-    initialAmount,
-    status,
-    currency,
-  }: CreateBankrollInput): Bankroll {
+  create(data: CreateBankrollInput): Bankroll {
     const today = new Date().toISOString();
     return {
       id: crypto.randomUUID(),
-      name,
-      initialAmount,
-      currentAmount: initialAmount,
+      name: data.name,
+      initialAmount: data.initialAmount,
+      currentAmount: data.initialAmount,
       createdAt: today,
       updatedAt: today,
-      status,
+      status: data.status,
       archivedAt: null,
-      currency,
+      currency: data.currency,
     };
   },
   isValid(bankroll: Bankroll): boolean {
