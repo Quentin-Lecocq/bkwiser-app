@@ -10,4 +10,33 @@ export const bankrollService = {
     await bankrollRepository.create(bankroll);
     return bankroll;
   },
+  async getAll(): Promise<Bankroll[]> {
+    return bankrollRepository.getAll();
+  },
+  async getById(id: string): Promise<Bankroll | null> {
+    return bankrollRepository.getById(id);
+  },
+  async reset(id: string): Promise<Bankroll | null> {
+    const existing = await bankrollRepository.getById(id);
+    if (!existing) return null;
+
+    const reset = bankrollFactory.reset(existing);
+    await bankrollRepository.update(reset);
+
+    return reset;
+  },
+  async archive(id: string): Promise<Bankroll | null> {
+    const existing = await bankrollRepository.getById(id);
+    if (!existing) return null;
+
+    const archived = {
+      ...existing,
+      archivedDate: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    await bankrollRepository.update(archived);
+
+    return archived;
+  },
 };
