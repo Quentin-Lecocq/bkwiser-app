@@ -1,6 +1,7 @@
 'use client';
 
 import { Bankroll } from '@/core/domain/bankroll';
+import Link from 'next/link';
 import { useBankrolls } from '../hooks';
 
 const BankrollList = () => {
@@ -14,8 +15,13 @@ const BankrollList = () => {
       <h1>My bankrolls</h1>
       <ul>
         {data.map((bk: Bankroll) => (
-          <li key={bk.id}>
-            {bk.name} - {bk.currentAmount} {bk.currency}
+          <li className="flex gap-4" key={bk.id}>
+            <span>
+              {bk.name} - {bk.currentAmount} {bk.currency}
+            </span>
+            <Link href={`/bankroll/${bk.id}`}>
+              <button className="cursor-pointer">edit</button>
+            </Link>
           </li>
         ))}
       </ul>
