@@ -11,6 +11,7 @@ export default async function Page({
     <div>
       <Link href={'/bankroll'}>go back all bankrolls</Link>
       <BankrollDetails id={id} />
+      <Link href={`/bankroll/${id}/bets`}>See bets</Link>
     </div>
   );
 }
