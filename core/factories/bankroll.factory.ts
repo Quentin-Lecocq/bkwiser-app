@@ -20,12 +20,8 @@ export const bankrollFactory = {
     };
   },
   isValid(bankroll: Bankroll): boolean {
-    return (
-      typeof bankroll.name === 'string' &&
-      bankroll.name.trim().length > 0 &&
-      typeof bankroll.initialAmount === 'number' &&
-      bankroll.initialAmount >= 0
-    );
+    const parsed = bankrollSchema.safeParse(bankroll);
+    return parsed.success;
   },
   reset(bankroll: Bankroll): Bankroll {
     return {
