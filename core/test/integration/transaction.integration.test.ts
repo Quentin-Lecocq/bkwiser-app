@@ -4,6 +4,7 @@ import { transactionService } from '../../services/transaction.service';
 import { db } from '../../../lib/db';
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { today } from '../helpers/today';
 
 const testBankrollId = 'bk-test';
 
@@ -29,6 +30,7 @@ describe('TransactionService Integration', () => {
   it('should create a transaction in the database', async () => {
     const created: Transaction = await transactionService.create({
       type: 'deposit',
+      date: today(),
       amount: 150,
       bankrollId: testBankrollId,
     });

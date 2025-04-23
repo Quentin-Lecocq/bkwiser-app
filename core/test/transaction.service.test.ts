@@ -10,6 +10,7 @@ describe('transactionService', () => {
   it('should create a transaction and persist it', async () => {
     const input: CreateTransactionInput = {
       type: 'deposit',
+      date: new Date().toISOString(),
       amount: 250,
       bankrollId: 'bk-123',
     };

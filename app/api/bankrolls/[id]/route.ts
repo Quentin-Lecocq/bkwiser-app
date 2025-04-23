@@ -10,7 +10,7 @@ export async function GET(
     const bankroll = await bankrollService.getById(id);
     return NextResponse.json(bankroll, { status: 200 });
   } catch (error) {
-    console.error('Error in GET /api/bankroll/id', error);
+    console.error('Error in GET /api/bankrolls/id', error);
     return new NextResponse(
       JSON.stringify({ error: 'Failed to fetch bankroll' }),
       { status: 500 },

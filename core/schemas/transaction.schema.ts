@@ -5,6 +5,7 @@ export const createTransactionSchema = z.object({
   type: z.enum(TRANSACTION_TYPES),
   amount: z.number().gt(0),
   bankrollId: z.string().uuid(),
+  date: z.string().datetime(),
 });
 
 export const transactionSchema = createTransactionSchema.extend({

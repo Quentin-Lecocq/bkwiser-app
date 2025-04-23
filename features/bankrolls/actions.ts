@@ -5,13 +5,16 @@ export async function createBankrollDB(data: {
   initialAmount: number;
 }): Promise<Bankroll> {
   try {
-    const res = await fetch('/api/bankroll', {
+    console.log({ data });
+    const res = await fetch('/api/bankrolls', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     });
+
+    console.log({ res });
 
     if (!res.ok) {
       const error = await res.json();

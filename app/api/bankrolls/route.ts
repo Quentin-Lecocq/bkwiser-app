@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     const bankroll = await bankrollService.create(parsed.data);
     return NextResponse.json(bankroll, { status: 201 });
   } catch (error) {
-    console.error('Error in POST /api/bankroll', error);
+    console.error('Error in POST /api/bankrolls', error);
     return new NextResponse(JSON.stringify({ error: 'Something went wrong' }), {
       status: 500,
     });
@@ -31,7 +31,7 @@ export async function GET() {
 
     return NextResponse.json(bankrolls, { status: 200 });
   } catch (error) {
-    console.error('Error in GET /api/bankroll', error);
+    console.error('Error in GET /api/bankrolls', error);
     return new NextResponse(JSON.stringify({ error: 'Something went wrong' }), {
       status: 500,
     });

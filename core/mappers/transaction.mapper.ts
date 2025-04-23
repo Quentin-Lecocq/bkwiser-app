@@ -7,6 +7,7 @@ export function toDomain(prisma: PrismaTransaction): Transaction {
     type: prisma.type,
     amount: prisma.amount,
     bankrollId: prisma.bankrollId,
+    date: prisma.date.toISOString(),
     createdAt: prisma.createdAt.toISOString(),
     updatedAt: prisma.updatedAt.toISOString(),
   };
@@ -18,6 +19,7 @@ export function toPersistence(transaction: Transaction): PrismaTransaction {
     type: transaction.type,
     amount: transaction.amount,
     bankrollId: transaction.bankrollId,
+    date: new Date(transaction.date),
     createdAt: new Date(transaction.createdAt),
     updatedAt: new Date(transaction.updatedAt),
   };
