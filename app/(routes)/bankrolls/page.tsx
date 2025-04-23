@@ -1,4 +1,4 @@
-import BankrollList from '@/features/bankroll/components/bankroll-list';
+import BankrollList from '@/features/bankrolls/components/bankroll-list';
 import Link from 'next/link';
 import { FC } from 'react';
 

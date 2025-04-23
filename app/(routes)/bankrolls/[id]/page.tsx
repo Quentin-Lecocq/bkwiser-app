@@ -1,6 +1,6 @@
 import GoBackButton from '@/components/go-back';
 import UIButton from '@/components/ui-button';
-import BankrollDetails from '@/features/bankroll/components/bankroll-detail';
+import BankrollDetails from '@/features/bankrolls/components/bankroll-detail';
 import Link from 'next/link';
 
 export default async function Page({

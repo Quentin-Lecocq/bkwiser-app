@@ -1,6 +1,6 @@
 'use client';
 
-import CreateBankrollForm from '@/features/bankroll/components/create-bankroll.form';
+import CreateBankrollForm from '@/features/bankrolls/components/create-bankroll.form';
 
 const BankrollPage = () => {
   return (
