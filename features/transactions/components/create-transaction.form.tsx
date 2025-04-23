@@ -1,11 +1,13 @@
 'use client';
 
 import { TRANSACTION_TYPES } from '@/core/constants/transaction';
-import { TransactionFormInput } from '@/core/schemas/transaction.schema';
+import {
+  TransactionFormInput,
+  transactionFormSchema,
+} from '@/core/schemas/transaction.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { useCreateTransaction } from '../hooks';
 
 type CreateTransactionFormProps = {
@@ -15,7 +17,7 @@ type CreateTransactionFormProps = {
 const CreateTransactionForm: FC<CreateTransactionFormProps> = ({
   bankrollId,
 }) => {
-  const { mutate } = useCreateTransaction();
+  const { mutate, isPending, error } = useCreateTransaction();
 
   const {
     register,
@@ -23,12 +25,7 @@ const CreateTransactionForm: FC<CreateTransactionFormProps> = ({
     formState: { errors },
     reset,
   } = useForm<TransactionFormInput>({
-    resolver: zodResolver(
-      z.object({
-        type: z.enum(TRANSACTION_TYPES),
-        amount: z.number().gt(0),
-      }),
-    ),
+    resolver: zodResolver(transactionFormSchema),
     defaultValues: {
       type: 'deposit',
     },
@@ -68,11 +65,14 @@ const CreateTransactionForm: FC<CreateTransactionFormProps> = ({
       />
       {errors.amount && <p className="text-red-500">{errors.amount.message}</p>}
 
+      {error && <p className="text-red-500">{error.message}</p>}
+
       <button
         type="submit"
+        disabled={isPending}
         className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
       >
-        Submit
+        {isPending ? 'Creating...' : 'Create'}
       </button>
     </form>
   );
