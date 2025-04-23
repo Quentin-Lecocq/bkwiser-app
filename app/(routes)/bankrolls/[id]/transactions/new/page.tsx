@@ -1,11 +1,11 @@
 import GoBackButton from '@/components/go-back';
+import CreateTransactionForm from '@/features/transactions/components/create-transaction.form';
 
 export default function Page() {
   return (
     <div>
       <GoBackButton />
-      <h1>Create transaction form</h1>
-      <div>this is a form</div>
+      <CreateTransactionForm />
     </div>
   );
 }
