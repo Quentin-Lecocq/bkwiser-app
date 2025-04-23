@@ -1,7 +1,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Bankroll } from '@/core/domain/bankroll';
+
+import { Bankroll } from '@/core/schemas/bankroll.schema';
 import Link from 'next/link';
 import { useBankrolls } from '../hooks';
 

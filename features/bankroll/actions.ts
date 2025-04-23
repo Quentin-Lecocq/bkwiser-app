@@ -1,4 +1,4 @@
-import { Bankroll } from '@/core/domain/bankroll';
+import { Bankroll } from '@/core/schemas/bankroll.schema';
 
 export async function createBankrollDB(data: {
   name: string;

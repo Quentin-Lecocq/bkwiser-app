@@ -6,8 +6,8 @@ import {
   CURRENCIES_SYMBOLS,
 } from '@/core/constants/bankroll';
 import {
-  bankrollSchema,
   CreateBankrollInput,
+  createBankrollSchema,
 } from '@/core/schemas/bankroll.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -24,7 +24,7 @@ const CreateBankrollForm = () => {
     formState: { errors },
     reset,
   } = useForm<CreateBankrollInput>({
-    resolver: zodResolver(bankrollSchema),
+    resolver: zodResolver(createBankrollSchema),
     defaultValues: {
       status: 'private',
       currency: 'EUR',
