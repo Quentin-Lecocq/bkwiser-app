@@ -1,11 +1,12 @@
-import { bankrollSchema } from '@/core/schemas/bankroll.schema';
+import { createBankrollSchema } from '@/core/schemas/bankroll.schema';
 import { bankrollService } from '@/core/services/bankroll.service';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const parsed = bankrollSchema.safeParse(body);
+    console.log({ body });
+    const parsed = createBankrollSchema.safeParse(body);
 
     if (!parsed.success) {
       return new NextResponse(

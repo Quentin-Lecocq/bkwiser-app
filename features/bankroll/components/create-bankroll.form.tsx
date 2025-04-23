@@ -35,7 +35,7 @@ const CreateBankrollForm = () => {
     mutate(data, {
       onSuccess: () => {
         reset();
-        router.push('/bankroll');
+        router.push('/bankrolls');
       },
     });
   }

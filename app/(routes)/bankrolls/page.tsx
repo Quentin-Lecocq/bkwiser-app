@@ -6,7 +6,7 @@ const BankrollPage: FC = () => {
   return (
     <>
       <BankrollList />
-      <Link href="/bankroll/new">Create bankroll</Link>
+      <Link href="/bankrolls/new">Create bankroll</Link>
     </>
   );
 };

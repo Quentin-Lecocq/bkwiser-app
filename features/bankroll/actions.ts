@@ -25,7 +25,7 @@ export async function createBankrollDB(data: {
 }
 
 export async function getBankrollByIdDB(id: string): Promise<Bankroll> {
-  const res = await fetch(`/api/bankroll/${id}`);
+  const res = await fetch(`/api/bankrolls/${id}`);
 
   if (!res.ok) {
     throw new Error('Failed to fetch bankroll');
@@ -35,7 +35,7 @@ export async function getBankrollByIdDB(id: string): Promise<Bankroll> {
 }
 
 export async function getBankrollsDB() {
-  const res = await fetch(`/api/bankroll`, {
+  const res = await fetch(`/api/bankrolls`, {
     cache: 'no-store',
   });
 
