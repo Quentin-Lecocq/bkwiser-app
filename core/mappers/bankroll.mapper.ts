@@ -1,10 +1,13 @@
-import type { Bankroll as PrismaBankroll } from '@prisma/client';
+import type { Bankroll as PrismaBankroll } from '@/prisma/generated/client';
 import { BankrollCurrencies, BankrollStatus } from '../constants/bankroll';
 import { Bankroll } from '../schemas/bankroll.schema';
 
 export function toDomain(prisma: PrismaBankroll): Bankroll {
   return {
-    ...prisma,
+    id: prisma.id,
+    name: prisma.name,
+    initialAmount: prisma.initialAmount,
+    currentAmount: prisma.currentAmount,
     status: prisma.status as BankrollStatus,
     currency: prisma.currency as BankrollCurrencies,
     createdAt: prisma.createdAt.toISOString(),
@@ -15,7 +18,10 @@ export function toDomain(prisma: PrismaBankroll): Bankroll {
 
 export function toPersistence(bk: Bankroll): PrismaBankroll {
   return {
-    ...bk,
+    id: bk.id,
+    name: bk.name,
+    initialAmount: bk.initialAmount,
+    currentAmount: bk.currentAmount,
     status: bk.status,
     currency: bk.currency,
     createdAt: new Date(bk.createdAt),
