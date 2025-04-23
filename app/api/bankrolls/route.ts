@@ -5,12 +5,13 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    console.log({ body });
     const parsed = createBankrollSchema.safeParse(body);
 
     if (!parsed.success) {
       return new NextResponse(
-        JSON.stringify({ error: 'Invalid bankroll data' }),
+        JSON.stringify({
+          error: 'Invalid bankroll data',
+        }),
         { status: 400 },
       );
     }
@@ -19,9 +20,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(bankroll, { status: 201 });
   } catch (error) {
     console.error('Error in POST /api/bankrolls', error);
-    return new NextResponse(JSON.stringify({ error: 'Something went wrong' }), {
-      status: 500,
-    });
+    return new NextResponse(
+      JSON.stringify({
+        error: 'Something went wrong',
+      }),
+      {
+        status: 500,
+      },
+    );
   }
 }
 
@@ -32,8 +38,13 @@ export async function GET() {
     return NextResponse.json(bankrolls, { status: 200 });
   } catch (error) {
     console.error('Error in GET /api/bankrolls', error);
-    return new NextResponse(JSON.stringify({ error: 'Something went wrong' }), {
-      status: 500,
-    });
+    return new NextResponse(
+      JSON.stringify({
+        error: 'Something went wrong',
+      }),
+      {
+        status: 500,
+      },
+    );
   }
 }

@@ -12,7 +12,7 @@ export const transactionFactory = {
       id: crypto.randomUUID(),
       type: data.type,
       amount: data.amount,
-      date: data.date,
+      // date: new Date(data.date).toISOString(),
       createdAt: today,
       updatedAt: today,
       bankrollId: data.bankrollId,

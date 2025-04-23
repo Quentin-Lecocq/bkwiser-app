@@ -8,8 +8,13 @@ import {
 
 export const transactionService = {
   async create(input: CreateTransactionInput): Promise<Transaction> {
-    const transaction = transactionFactory.create(input);
-    await transactionRepository.create(toPersistence(transaction));
-    return transaction;
+    try {
+      const transaction = transactionFactory.create(input);
+      await transactionRepository.create(toPersistence(transaction));
+      return transaction;
+    } catch (error) {
+      console.error('Failed to create transaction:', error);
+      throw new Error('Transaction creation failed');
+    }
   },
 };

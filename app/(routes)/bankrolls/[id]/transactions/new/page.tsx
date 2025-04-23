@@ -1,11 +1,16 @@
 import GoBackButton from '@/components/go-back';
 import CreateTransactionForm from '@/features/transactions/components/create-transaction.form';
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   return (
     <div>
       <GoBackButton />
-      <CreateTransactionForm />
+      <CreateTransactionForm bankrollId={id} />
     </div>
   );
 }

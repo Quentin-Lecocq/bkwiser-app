@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/client" // tu peux choisir le dossier que tu veux
+  output   = "./generated/client" 
 }
 
 datasource db {
@@ -36,7 +36,7 @@ model Transaction {
   id         String   @id @default(uuid())
   type       TransactionType
   amount     Float
-  date       DateTime
+  // date       DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   bankrollId String

@@ -1,11 +1,9 @@
-import { Bankroll } from '@/core/schemas/bankroll.schema';
+import { Bankroll, CreateBankrollInput } from '@/core/schemas/bankroll.schema';
 
-export async function createBankrollDB(data: {
-  name: string;
-  initialAmount: number;
-}): Promise<Bankroll> {
+export async function createBankrollDB(
+  data: CreateBankrollInput,
+): Promise<Bankroll> {
   try {
-    console.log({ data });
     const res = await fetch('/api/bankrolls', {
       method: 'POST',
       headers: {
@@ -13,8 +11,6 @@ export async function createBankrollDB(data: {
       },
       body: JSON.stringify(data),
     });
-
-    console.log({ res });
 
     if (!res.ok) {
       const error = await res.json();
