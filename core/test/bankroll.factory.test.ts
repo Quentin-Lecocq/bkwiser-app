@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { BANKROLL_CURRENCIES, BANKROLL_STATUS } from '../constants/bankroll';
 import { bankrollFactory } from '../factories/bankroll.factory';
 import { sleep } from './helpers/sleep';
 import { today } from './helpers/today';
@@ -69,14 +70,23 @@ describe('bankrollFactory', () => {
     expect(result).toBeNull();
   });
   it('should create bankroll from valid raw input', () => {
-    const result = bankrollFactory.fromRaw({
-      name: 'Raw',
+    const rawData = {
+      id: crypto.randomUUID(),
+      name: 'Raw Bankroll',
       initialAmount: 100,
-      status: 'private',
-      currency: 'EUR',
-    });
+      currentAmount: 100,
+      status: BANKROLL_STATUS[0],
+      currency: BANKROLL_CURRENCIES[0],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      archivedAt: null,
+    };
+
+    const result = bankrollFactory.fromRaw(rawData);
+
     expect(result).not.toBeNull();
-    expect(result?.name).toBe('Raw');
+    expect(result?.name).toBe('Raw Bankroll');
+    expect(result?.initialAmount).toBe(100);
   });
   it('should detect when a bankroll is archived', () => {
     const bk = bankrollFactory.create({

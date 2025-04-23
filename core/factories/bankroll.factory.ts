@@ -1,5 +1,5 @@
-import { Bankroll } from '../domain/bankroll';
 import {
+  Bankroll,
   bankrollSchema,
   CreateBankrollInput,
 } from '../schemas/bankroll.schema';
@@ -21,6 +21,7 @@ export const bankrollFactory = {
   },
   isValid(bankroll: Bankroll): boolean {
     const parsed = bankrollSchema.safeParse(bankroll);
+
     return parsed.success;
   },
   reset(bankroll: Bankroll): Bankroll {
@@ -33,8 +34,7 @@ export const bankrollFactory = {
   fromRaw(data: unknown): Bankroll | null {
     const parsed = bankrollSchema.safeParse(data);
     if (!parsed.success) return null;
-
-    return bankrollFactory.create(parsed.data);
+    return parsed.data;
   },
   isArchived(bankroll: Bankroll): boolean {
     return bankroll.archivedAt !== null;

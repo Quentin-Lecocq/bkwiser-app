@@ -1,13 +1,12 @@
-import { Bankroll } from '../domain/bankroll';
 import { bankrollFactory } from '../factories/bankroll.factory';
-import { toDomain } from '../mappers/bankroll.mapper';
+import { toDomain, toPersistence } from '../mappers/bankroll.mapper';
 import { bankrollRepository } from '../repositories/bankroll.repository';
-import { CreateBankrollInput } from '../schemas/bankroll.schema';
+import { Bankroll, CreateBankrollInput } from '../schemas/bankroll.schema';
 
 export const bankrollService = {
   async create(input: CreateBankrollInput): Promise<Bankroll> {
     const bankroll = bankrollFactory.create(input);
-    await bankrollRepository.create(bankroll);
+    await bankrollRepository.create(toPersistence(bankroll));
     return bankroll;
   },
   async getAll(): Promise<Bankroll[]> {
@@ -23,7 +22,7 @@ export const bankrollService = {
     if (!existing) return null;
 
     const reset = bankrollFactory.reset(toDomain(existing));
-    await bankrollRepository.update(reset);
+    await bankrollRepository.update(toPersistence(reset));
     return reset;
   },
   async archive(id: string): Promise<Bankroll | null> {
@@ -37,7 +36,7 @@ export const bankrollService = {
       updatedAt: now,
     };
 
-    await bankrollRepository.update(archived);
+    await bankrollRepository.update(toPersistence(archived));
     return archived;
   },
 };

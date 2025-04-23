@@ -1,5 +1,6 @@
 import type { Bankroll as PrismaBankroll } from '@prisma/client';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { toPersistence } from '../mappers/bankroll.mapper';
 import { bankrollRepository } from '../repositories/bankroll.repository';
 import { CreateBankrollInput } from '../schemas/bankroll.schema';
 import { bankrollService } from '../services/bankroll.service';
@@ -21,7 +22,7 @@ describe('bankrollService', () => {
     mockedRepo.create.mockReset();
     mockedRepo.getAll.mockReset();
   });
-  it('should create a bankroll an persist it', async () => {
+  it('should create a bankroll and persist it', async () => {
     const input: CreateBankrollInput = {
       name: 'Test BK',
       initialAmount: 100,
@@ -39,9 +40,15 @@ describe('bankrollService', () => {
     expect(bankroll.archivedAt).toBeNull();
     expect(typeof bankroll.id).toBe('string');
 
-    expect(bankrollRepository.create).toHaveBeenCalledWith(bankroll);
+    expect(bankrollRepository.create).toHaveBeenCalledWith(
+      toPersistence(bankroll),
+    );
   });
   it('should reset a bankroll when it exists', async () => {
+    const now = new Date('2025-04-23T10:00:00Z');
+    vi.useFakeTimers();
+    vi.setSystemTime(now);
+
     const initial: PrismaBankroll = {
       id: 'bk1',
       name: 'Resettable BK',
@@ -60,10 +67,12 @@ describe('bankrollService', () => {
 
     expect(result).not.toBeNull();
     expect(result?.currentAmount).toBe(150);
-    expect(result?.updatedAt).not.toBe(initial.updatedAt);
+    expect(result?.updatedAt).toBe(now.toISOString());
 
     expect(mockedRepo.getById).toHaveBeenCalledWith('bk1');
-    expect(mockedRepo.update).toHaveBeenCalledWith(result);
+    expect(mockedRepo.update).toHaveBeenCalledWith(toPersistence(result!));
+
+    vi.useRealTimers();
   });
   it('should return null if bankroll does not exist', async () => {
     mockedRepo.getById.mockResolvedValue(null);
@@ -74,8 +83,9 @@ describe('bankrollService', () => {
     expect(mockedRepo.update).not.toHaveBeenCalled();
   });
   it('should archive a bankroll if it exists', async () => {
-    const now = new Date().toISOString();
-    vi.setSystemTime(new Date(now));
+    const now = new Date('2025-04-23T09:00:00Z');
+    vi.useFakeTimers();
+    vi.setSystemTime(now); // ⏱️ force l’horloge système
 
     const initial: PrismaBankroll = {
       id: 'bk2',
@@ -94,9 +104,17 @@ describe('bankrollService', () => {
     const result = await bankrollService.archive('bk2');
 
     expect(result).not.toBeNull();
-    expect(result?.archivedAt).toBe(now);
-    expect(result?.updatedAt).toBe(now);
-    expect(mockedRepo.update).toHaveBeenCalledWith(result);
+    expect(result?.archivedAt).toBe(now.toISOString());
+    expect(result?.updatedAt).toBe(now.toISOString());
+    expect(mockedRepo.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: 'bk2',
+        archivedAt: now,
+        updatedAt: now,
+      }),
+    );
+
+    vi.useRealTimers(); // 🔁 Nettoie après test
   });
   it('should return a list of bankrolls from the repository', async () => {
     const mockList: PrismaBankroll[] = [

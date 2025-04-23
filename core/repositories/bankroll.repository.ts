@@ -1,6 +1,7 @@
-import type { Bankroll as PrismaBankroll } from '@prisma/client';
+import type { Bankroll, Bankroll as PrismaBankroll } from '@prisma/client';
 import { db } from '../../lib/db';
-import { Bankroll } from '../domain/bankroll';
+
+// abstraction of database
 
 export const bankrollRepository = {
   async create(bankroll: Bankroll): Promise<void> {
