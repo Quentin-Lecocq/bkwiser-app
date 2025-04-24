@@ -11,7 +11,7 @@ describe('transactionFactory', () => {
   it('should create a valid transaction object (schema)', () => {
     const input: CreateTransactionInput = {
       type: 'deposit',
-      date: today(),
+      transactionDate: today(),
       amount: 100,
       bankrollId: crypto.randomUUID(),
     };
@@ -21,7 +21,7 @@ describe('transactionFactory', () => {
   it('should override amount and bankrollId correctly', () => {
     const transaction = transactionFactory.create({
       type: 'withdraw',
-      date: today(),
+      transactionDate: today(),
       amount: 42,
       bankrollId: 'abc',
     });
@@ -32,7 +32,7 @@ describe('transactionFactory', () => {
   it('should create a unique id each time', () => {
     const input: CreateTransactionInput = {
       type: 'deposit',
-      date: today(),
+      transactionDate: today(),
       amount: 50,
       bankrollId: crypto.randomUUID(),
     };
@@ -45,7 +45,7 @@ describe('transactionFactory', () => {
   it('should validate a correct deposit', () => {
     const input: CreateTransactionInput = {
       type: 'deposit',
-      date: today(),
+      transactionDate: today(),
       amount: 50,
       bankrollId: crypto.randomUUID(),
     };
@@ -58,7 +58,7 @@ describe('transactionFactory', () => {
     const invalid = {
       ...transactionFactory.create({
         type: 'deposit',
-        date: today(),
+        transactionDate: today(),
         amount: 50,
         bankrollId: crypto.randomUUID(),
       }),
@@ -72,7 +72,7 @@ describe('transactionFactory', () => {
       ...transactionFactory.create({
         type: 'withdraw',
         amount: 50,
-        date: today(),
+        transactionDate: today(),
         bankrollId: crypto.randomUUID(),
       }),
       amount: -20,
@@ -106,7 +106,7 @@ describe('transactionFactory', () => {
     const tx = transactionFactory.create({
       type: 'deposit',
       amount: 100,
-      date: today(),
+      transactionDate: today(),
       bankrollId: crypto.randomUUID(),
     });
 
@@ -116,7 +116,7 @@ describe('transactionFactory', () => {
     const tx = transactionFactory.create({
       type: 'withdraw',
       amount: 100,
-      date: today(),
+      transactionDate: today(),
       bankrollId: crypto.randomUUID(),
     });
 
@@ -126,7 +126,7 @@ describe('transactionFactory', () => {
     const tx = transactionFactory.create({
       type: 'withdraw',
       amount: 100,
-      date: today(),
+      transactionDate: today(),
       bankrollId: crypto.randomUUID(),
     });
 
@@ -136,7 +136,7 @@ describe('transactionFactory', () => {
     const tx = transactionFactory.create({
       type: 'deposit',
       amount: 100,
-      date: today(),
+      transactionDate: today(),
       bankrollId: crypto.randomUUID(),
     });
 
@@ -146,7 +146,7 @@ describe('transactionFactory', () => {
     const initialData = transactionFactory.create({
       type: 'deposit',
       amount: 200,
-      date: today(),
+      transactionDate: today(),
       bankrollId: crypto.randomUUID(),
     });
 

@@ -1,4 +1,4 @@
-import type { Bankroll } from '@/prisma/generated/client';
+import { Bankroll } from '@prisma/client';
 import { db } from '../../lib/db';
 
 // abstraction of database

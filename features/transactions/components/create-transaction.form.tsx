@@ -65,6 +65,15 @@ const CreateTransactionForm: FC<CreateTransactionFormProps> = ({
       />
       {errors.amount && <p className="text-red-500">{errors.amount.message}</p>}
 
+      <input
+        type="datetime-local"
+        {...register('transactionDate')}
+        className="p-2 border rounded"
+      />
+      {errors.transactionDate && (
+        <p className="text-red-500">{errors.transactionDate.message}</p>
+      )}
+
       {error && <p className="text-red-500">{error.message}</p>}
 
       <button

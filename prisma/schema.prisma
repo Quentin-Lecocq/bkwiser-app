@@ -36,7 +36,7 @@ model Transaction {
   id         String   @id @default(uuid())
   type       TransactionType
   amount     Float
-  // date       DateTime
+  transactionDate       DateTime @default(now())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   bankrollId String

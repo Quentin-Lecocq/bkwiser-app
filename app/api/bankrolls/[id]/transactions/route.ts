@@ -7,8 +7,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const parsed = createTransactionSchema.safeParse(body);
 
-    console.log(parsed.error);
-
     if (!parsed.success) {
       return new NextResponse(
         JSON.stringify({

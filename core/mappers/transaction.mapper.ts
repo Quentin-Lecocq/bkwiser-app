@@ -1,26 +1,44 @@
-import type { Transaction as PrismaTransaction } from '@/prisma/generated/client';
+import { TransactionTypes } from '../constants/transaction';
 import { Transaction } from '../schemas/transaction.schema';
 
-export function toDomain(prisma: PrismaTransaction): Transaction {
+export function toDomain(prisma: {
+  id: string;
+  type: string;
+  amount: number;
+  transactionDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  bankrollId: string;
+}): Transaction {
   return {
     id: prisma.id,
-    type: prisma.type,
+    type: prisma.type as TransactionTypes,
     amount: prisma.amount,
-    bankrollId: prisma.bankrollId,
-    // date: prisma.date.toISOString(),
+    transactionDate: prisma.transactionDate.toISOString(),
     createdAt: prisma.createdAt.toISOString(),
     updatedAt: prisma.updatedAt.toISOString(),
+    bankrollId: prisma.bankrollId,
   };
 }
 
-export function toPersistence(transaction: Transaction): PrismaTransaction {
+export function toPersistence(tx: Transaction): {
+  id: string;
+  type: TransactionTypes;
+  amount: number;
+  transactionDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  bankrollId: string;
+} {
   return {
-    id: transaction.id,
-    type: transaction.type,
-    amount: transaction.amount,
-    bankrollId: transaction.bankrollId,
-    // date: new Date(transaction.date),
-    createdAt: new Date(transaction.createdAt),
-    updatedAt: new Date(transaction.updatedAt),
+    id: tx.id,
+    type: tx.type,
+    amount: tx.amount,
+    transactionDate: tx.transactionDate
+      ? new Date(tx.transactionDate)
+      : new Date(),
+    createdAt: new Date(tx.createdAt),
+    updatedAt: new Date(tx.updatedAt),
+    bankrollId: tx.bankrollId,
   };
 }

@@ -1,18 +1,24 @@
-import type { Transaction } from '@/prisma/generated/client';
-import { Prisma } from '@prisma/client';
+import { Transaction } from '@prisma/client';
 import { db } from '../../lib/db';
 
 export const transactionRepository = {
   async create(transaction: Transaction): Promise<void> {
-    await db.transaction.create({
-      data: {
-        type: transaction.type,
-        amount: transaction.amount,
-        // date: new Date(transaction.date),
-        createdAt: new Date(transaction.createdAt),
-        updatedAt: new Date(transaction.updatedAt),
-        bankrollId: transaction.bankrollId,
-      } as Prisma.TransactionUncheckedCreateInput,
-    });
+    try {
+      await db.transaction.create({
+        data: {
+          type: transaction.type,
+          amount: transaction.amount,
+          transactionDate: transaction.transactionDate || new Date(),
+          createdAt: transaction.createdAt || new Date(),
+          updatedAt: transaction.updatedAt || new Date(),
+          bankroll: {
+            connect: { id: transaction.bankrollId },
+          },
+        },
+      });
+    } catch (error) {
+      console.error('Error creating transaction:', error);
+      throw new Error('Failed to create transaction');
+    }
   },
 };
