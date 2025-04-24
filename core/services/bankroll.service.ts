@@ -5,38 +5,63 @@ import { Bankroll, CreateBankrollInput } from '../schemas/bankroll.schema';
 
 export const bankrollService = {
   async create(input: CreateBankrollInput): Promise<Bankroll> {
-    const bankroll = bankrollFactory.create(input);
-    await bankrollRepository.create(toPersistence(bankroll));
-    return bankroll;
+    try {
+      const bankroll = bankrollFactory.create(input);
+      await bankrollRepository.create(toPersistence(bankroll));
+      return bankroll;
+    } catch (error) {
+      console.error('Error creating bankroll:', error);
+      throw new Error('Failed to create bankroll');
+    }
   },
   async getAll(): Promise<Bankroll[]> {
-    const rows = await bankrollRepository.getAll();
-    return rows.map(toDomain);
+    try {
+      const rows = await bankrollRepository.getAll();
+      return rows.map(toDomain);
+    } catch (error) {
+      console.error('Error fetching all bankrolls:', error);
+      throw new Error('Failed to fetch bankrolls');
+    }
   },
   async getById(id: string): Promise<Bankroll | null> {
-    const row = await bankrollRepository.getById(id);
-    return row ? toDomain(row) : null;
+    try {
+      const row = await bankrollRepository.getById(id);
+      return row ? toDomain(row) : null;
+    } catch (error) {
+      console.error(`Error fetching bankroll with id ${id}:`, error);
+      throw new Error('Failed to fetch bankroll');
+    }
   },
   async reset(id: string): Promise<Bankroll | null> {
-    const existing = await bankrollRepository.getById(id);
-    if (!existing) return null;
+    try {
+      const existing = await bankrollRepository.getById(id);
+      if (!existing) return null;
 
-    const reset = bankrollFactory.reset(toDomain(existing));
-    await bankrollRepository.update(toPersistence(reset));
-    return reset;
+      const reset = bankrollFactory.reset(toDomain(existing));
+      await bankrollRepository.update(toPersistence(reset));
+      return reset;
+    } catch (error) {
+      console.error(`Error resetting bankroll with id ${id}:`, error);
+      throw new Error('Failed to reset bankroll');
+    }
   },
   async archive(id: string): Promise<Bankroll | null> {
-    const existing = await bankrollRepository.getById(id);
-    if (!existing) return null;
+    try {
+      const existing = await bankrollRepository.getById(id);
+      if (!existing) return null;
 
-    const now = new Date().toISOString();
-    const archived: Bankroll = {
-      ...toDomain(existing),
-      archivedAt: now,
-      updatedAt: now,
-    };
+      const now = new Date().toISOString();
+      const archived: Bankroll = {
+        ...toDomain(existing),
+        archivedAt: now,
+        updatedAt: now,
+      };
 
-    await bankrollRepository.update(toPersistence(archived));
-    return archived;
+      await bankrollRepository.update(toPersistence(archived));
+      return archived;
+    } catch (error) {
+      console.error(`Error archiving bankroll with id ${id}:`, error);
+      throw new Error('Failed to archive bankroll');
+    }
   },
 };

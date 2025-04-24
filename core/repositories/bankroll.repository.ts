@@ -2,7 +2,6 @@ import { Bankroll } from '@prisma/client';
 import { db } from '../../lib/db';
 
 // abstraction of database
-
 export const bankrollRepository = {
   async create(bankroll: Bankroll): Promise<void> {
     await db.bankroll.create({ data: bankroll });
