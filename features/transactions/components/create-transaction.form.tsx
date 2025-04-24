@@ -6,6 +6,7 @@ import {
   transactionFormSchema,
 } from '@/core/schemas/transaction.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { useCreateTransaction } from '../hooks';
@@ -17,6 +18,7 @@ type CreateTransactionFormProps = {
 const CreateTransactionForm: FC<CreateTransactionFormProps> = ({
   bankrollId,
 }) => {
+  const router = useRouter();
   const { mutate, isPending, error } = useCreateTransaction();
 
   const {
@@ -39,6 +41,7 @@ const CreateTransactionForm: FC<CreateTransactionFormProps> = ({
 
     mutate(formattedData, {
       onSuccess: () => {
+        router.back();
         reset();
       },
     });

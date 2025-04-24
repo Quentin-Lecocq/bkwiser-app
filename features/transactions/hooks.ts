@@ -1,11 +1,15 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createTransactionDB, getTransactionsDB } from './actions';
 
 export function useCreateTransaction() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: createTransactionDB,
     onSuccess: () => {
-      console.log('success');
+      queryClient.invalidateQueries({
+        queryKey: ['transactions'],
+      });
     },
   });
 }
