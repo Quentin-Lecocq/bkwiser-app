@@ -2,6 +2,7 @@ import { bankrollFactory } from '../factories/bankroll.factory';
 import { toDomain, toPersistence } from '../mappers/bankroll.mapper';
 import { bankrollRepository } from '../repositories/bankroll.repository';
 import { Bankroll, CreateBankrollInput } from '../schemas/bankroll.schema';
+import { Transaction } from '../schemas/transaction.schema';
 
 export const bankrollService = {
   async create(input: CreateBankrollInput): Promise<Bankroll> {
@@ -63,5 +64,27 @@ export const bankrollService = {
       console.error(`Error archiving bankroll with id ${id}:`, error);
       throw new Error('Failed to archive bankroll');
     }
+  },
+  async processTransaction(transaction: Transaction, bankrollId: string) {
+    const bankroll = await bankrollRepository.getById(bankrollId);
+
+    if (!bankroll) return null;
+
+    if (
+      transaction.type === 'withdraw' &&
+      bankroll.currentAmount < transaction.amount
+    ) {
+      throw new Error('Insufficient funds for withdrawal');
+    }
+
+    const updatedBankroll = await bankrollRepository.update({
+      ...bankroll,
+      currentAmount:
+        transaction.type === 'deposit'
+          ? bankroll.currentAmount + transaction.amount
+          : bankroll.currentAmount - transaction.amount,
+    });
+
+    return updatedBankroll;
   },
 };

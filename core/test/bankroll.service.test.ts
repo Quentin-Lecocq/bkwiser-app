@@ -1,5 +1,6 @@
 import type { Bankroll as PrismaBankroll } from '@prisma/client';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { TRANSACTION_TYPES } from '../constants/transaction';
 import { toPersistence } from '../mappers/bankroll.mapper';
 import { bankrollRepository } from '../repositories/bankroll.repository';
 import { CreateBankrollInput } from '../schemas/bankroll.schema';
@@ -174,5 +175,50 @@ describe('bankrollService', () => {
 
     expect(result).toEqual(mockBankroll);
     expect(mockedRepo.getById).toHaveBeenCalledWith('bk-id');
+  });
+  it('should process a transaction and update the bankroll', async () => {
+    const bankrollId = 'bk1';
+    const transaction = {
+      id: 'txn1',
+      type: TRANSACTION_TYPES[0],
+      amount: 50,
+      createdAt: new Date('2025-04-23T10:00:00Z').toISOString(),
+      updatedAt: new Date('2025-04-23T10:00:00Z').toISOString(),
+      bankrollId: bankrollId,
+    };
+
+    const initial: PrismaBankroll = {
+      id: bankrollId,
+      name: 'Test BK',
+      initialAmount: 100,
+      currentAmount: 100,
+      createdAt: new Date('2025-01-01T00:00:00Z'),
+      updatedAt: new Date('2025-01-01T00:00:00Z'),
+      status: 'private',
+      currency: 'EUR',
+      archivedAt: null,
+    };
+
+    mockedRepo.getById.mockResolvedValue(initial);
+    mockedRepo.update.mockResolvedValue({
+      ...initial,
+      currentAmount: 150,
+      updatedAt: new Date('2025-04-23T10:00:00Z'),
+    });
+
+    const result = await bankrollService.processTransaction(
+      transaction,
+      bankrollId,
+    );
+
+    expect(result).not.toBeNull();
+    expect(result?.currentAmount).toBe(150);
+    expect(mockedRepo.getById).toHaveBeenCalledWith(bankrollId);
+    expect(mockedRepo.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: bankrollId,
+        currentAmount: 150,
+      }),
+    );
   });
 });

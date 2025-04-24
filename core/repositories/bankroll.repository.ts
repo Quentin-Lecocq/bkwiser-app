@@ -14,8 +14,8 @@ export const bankrollRepository = {
       where: { id },
     });
   },
-  async update(bankroll: Bankroll): Promise<void> {
-    await db.bankroll.update({
+  async update(bankroll: Bankroll): Promise<Bankroll> {
+    return db.bankroll.update({
       where: { id: bankroll.id },
       data: bankroll,
     });

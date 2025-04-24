@@ -5,12 +5,17 @@ import {
   CreateTransactionInput,
   Transaction,
 } from '../schemas/transaction.schema';
+import { bankrollService } from '../services/bankroll.service';
 
 export const transactionService = {
   async create(input: CreateTransactionInput): Promise<Transaction> {
     try {
       const transaction = transactionFactory.create(input);
+
       await transactionRepository.create(toPersistence(transaction));
+
+      await bankrollService.processTransaction(transaction, input.bankrollId);
+
       return transaction;
     } catch (error) {
       console.error('Failed to create transaction:', error);
