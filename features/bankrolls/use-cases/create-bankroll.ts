@@ -1,12 +1,10 @@
-import { createBankrollError } from '@/core/errors/create-bankroll-error';
-import { bankrollFactory } from '@/core/factories/bankroll.factory';
-import { toPersistence } from '@/core/mappers/bankroll.mapper';
-import { bankrollRepository } from '@/core/repositories/bankroll.repository';
+import { createBankrollError } from '@/core/errors/bankrolls/create-bankroll-error';
 import {
   Bankroll,
   CreateBankrollInput,
   createBankrollSchema,
 } from '@/core/schemas/bankroll.schema';
+import { bankrollService } from '@/core/services/bankroll.service';
 
 export async function createBankroll(
   input: CreateBankrollInput,
@@ -18,9 +16,7 @@ export async function createBankroll(
       throw createBankrollError('Invalid input to create bankroll');
     }
 
-    const bankroll = bankrollFactory.create(data);
-    await bankrollRepository.create(toPersistence(bankroll));
-
+    const bankroll = await bankrollService.create(data);
     return bankroll;
   } catch (error) {
     console.error('Failed to create bankroll:', error);

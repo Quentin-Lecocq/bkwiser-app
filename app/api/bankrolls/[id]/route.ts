@@ -7,6 +7,13 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
+
+    if (!id || typeof id !== 'string') {
+      return new NextResponse(
+        JSON.stringify({ error: 'Invalid or missing ID' }),
+        { status: 400 },
+      );
+    }
     const bankroll = await bankrollService.getById(id);
     return NextResponse.json(bankroll, { status: 200 });
   } catch (error) {

@@ -1,4 +1,4 @@
-import { getAllBankrollsError } from '@/core/errors/get-all-bankrolls-error';
+import { getAllBankrollsError } from '@/core/errors/bankrolls/get-all-bankrolls-error';
 import { Bankroll } from '@/core/schemas/bankroll.schema';
 import { bankrollService } from '@/core/services/bankroll.service';
 

@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { getAllTransactions } from '@/features/transactions/use-cases/get-all-transactions';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -9,10 +9,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Missing bankrollId' }, { status: 400 });
   }
 
-  const transactions = await db.transaction.findMany({
-    where: { bankrollId },
-    orderBy: { transactionDate: 'desc' },
-  });
+  const transactions = await getAllTransactions(bankrollId);
 
-  return NextResponse.json(transactions);
+  return NextResponse.json(transactions, {
+    status: 200,
+  });
 }

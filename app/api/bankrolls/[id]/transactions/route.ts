@@ -1,13 +1,13 @@
 import { createTransactionSchema } from '@/core/schemas/transaction.schema';
-import { transactionService } from '@/core/services/transaction.service';
+import { createTransaction } from '@/features/transactions/use-cases/create-transaction';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const parsed = createTransactionSchema.safeParse(body);
+    const { error, data } = createTransactionSchema.safeParse(body);
 
-    if (!parsed.success) {
+    if (error) {
       return new NextResponse(
         JSON.stringify({
           error: 'Invalid transaction data',
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const transaction = await transactionService.create(parsed.data);
+    const transaction = await createTransaction(data);
     return NextResponse.json(transaction, { status: 201 });
   } catch (error) {
     console.error('Error in POST /api/bankrolls/${id}/transactions', error);
