@@ -1,4 +1,4 @@
-import { bankrollService } from '@/core/services/bankroll.service';
+import { getBankrollById } from '@/features/bankrolls/use-cases/get-bankroll-by-id';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
@@ -14,7 +14,7 @@ export async function GET(
         { status: 400 },
       );
     }
-    const bankroll = await bankrollService.getById(id);
+    const bankroll = await getBankrollById(id);
     return NextResponse.json(bankroll, { status: 200 });
   } catch (error) {
     console.error('Error in GET /api/bankrolls/id', error);
