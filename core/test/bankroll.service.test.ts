@@ -221,4 +221,57 @@ describe('bankrollService', () => {
       }),
     );
   });
+  it('should throw an error if the bankroll does not exist', async () => {
+    const bankrollId = 'nonexistent-bk';
+    const transaction = {
+      id: 'txn2',
+      type: TRANSACTION_TYPES[1],
+      amount: 50,
+      createdAt: new Date('2025-04-24T10:00:00Z').toISOString(),
+      updatedAt: new Date('2025-04-24T10:00:00Z').toISOString(),
+      bankrollId,
+    };
+
+    mockedRepo.getById.mockResolvedValue(null);
+
+    await expect(
+      bankrollService.processTransaction(transaction, bankrollId),
+    ).rejects.toThrow('Bankroll with ID nonexistent-bk not found');
+
+    expect(mockedRepo.getById).toHaveBeenCalledWith(bankrollId);
+    expect(mockedRepo.update).not.toHaveBeenCalled();
+  });
+
+  it('should throw an error if there are insufficient funds for withdrawal', async () => {
+    const bankrollId = 'bk1';
+    const transaction = {
+      id: 'txn3',
+      type: TRANSACTION_TYPES[1],
+      amount: 200,
+      createdAt: new Date('2025-04-24T10:00:00Z').toISOString(),
+      updatedAt: new Date('2025-04-24T10:00:00Z').toISOString(),
+      bankrollId,
+    };
+
+    const initial: PrismaBankroll = {
+      id: bankrollId,
+      name: 'Test BK',
+      initialAmount: 100,
+      currentAmount: 100,
+      createdAt: new Date('2025-01-01T00:00:00Z'),
+      updatedAt: new Date('2025-01-01T00:00:00Z'),
+      status: 'private',
+      currency: 'EUR',
+      archivedAt: null,
+    };
+
+    mockedRepo.getById.mockResolvedValue(initial);
+
+    await expect(
+      bankrollService.processTransaction(transaction, bankrollId),
+    ).rejects.toThrow('Insufficient funds for withdrawal');
+
+    expect(mockedRepo.getById).toHaveBeenCalledWith(bankrollId);
+    expect(mockedRepo.update).not.toHaveBeenCalled();
+  });
 });

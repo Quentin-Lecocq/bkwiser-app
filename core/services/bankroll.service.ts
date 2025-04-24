@@ -68,7 +68,9 @@ export const bankrollService = {
   async processTransaction(transaction: Transaction, bankrollId: string) {
     const bankroll = await bankrollRepository.getById(bankrollId);
 
-    if (!bankroll) return null;
+    if (!bankroll) {
+      throw new Error(`Bankroll with ID ${bankrollId} not found`);
+    }
 
     if (
       transaction.type === 'withdraw' &&

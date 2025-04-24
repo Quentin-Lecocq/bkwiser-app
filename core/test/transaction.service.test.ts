@@ -1,8 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TRANSACTION_TYPES } from '../constants/transaction';
 import { toDomain } from '../mappers/transaction.mapper';
+import { bankrollRepository } from '../repositories/bankroll.repository';
 import { transactionRepository } from '../repositories/transaction.repository';
 import { transactionService } from '../services/transaction.service';
+
+vi.mock('../repositories/bankroll.repository', () => ({
+  bankrollRepository: {
+    getById: vi.fn(),
+    update: vi.fn(),
+  },
+}));
 
 vi.mock('../repositories/transaction.repository', () => ({
   transactionRepository: {
@@ -12,13 +20,28 @@ vi.mock('../repositories/transaction.repository', () => ({
 }));
 
 describe('transactionService', () => {
+  const mockedBankrollRepo = vi.mocked(bankrollRepository);
   const mockedRepo = vi.mocked(transactionRepository);
 
   beforeEach(() => {
     mockedRepo.getAllByBankrollId.mockReset();
+    mockedBankrollRepo.getById.mockReset();
+    mockedBankrollRepo.update.mockReset();
   });
 
   it('should create a transaction and persist it', async () => {
+    mockedBankrollRepo.getById.mockResolvedValue({
+      id: 'bk-123',
+      name: 'Main Bankroll',
+      initialAmount: 500,
+      currentAmount: 1000,
+      status: 'active',
+      currency: 'EUR',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      archivedAt: null,
+    });
+
     const input = {
       type: TRANSACTION_TYPES[0],
       transactionDate: new Date().toISOString(),
