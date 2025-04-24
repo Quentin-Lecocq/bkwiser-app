@@ -85,7 +85,7 @@ describe('bankrollService', () => {
   it('should archive a bankroll if it exists', async () => {
     const now = new Date('2025-04-23T09:00:00Z');
     vi.useFakeTimers();
-    vi.setSystemTime(now); // ⏱️ force l’horloge système
+    vi.setSystemTime(now);
 
     const initial: PrismaBankroll = {
       id: 'bk2',
@@ -114,7 +114,7 @@ describe('bankrollService', () => {
       }),
     );
 
-    vi.useRealTimers(); // 🔁 Nettoie après test
+    vi.useRealTimers();
   });
   it('should return a list of bankrolls from the repository', async () => {
     const mockList: PrismaBankroll[] = [

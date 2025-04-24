@@ -17,4 +17,11 @@ export const transactionRepository = {
       },
     });
   },
+  async getAllByBankrollId(id: string): Promise<Transaction[]> {
+    return db.transaction.findMany({
+      where: {
+        bankrollId: id,
+      },
+    });
+  },
 };

@@ -5,8 +5,8 @@ export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { id } = await params;
   try {
+    const { id } = await params;
     const bankroll = await bankrollService.getById(id);
     return NextResponse.json(bankroll, { status: 200 });
   } catch (error) {

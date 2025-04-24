@@ -1,5 +1,5 @@
-import { useMutation } from '@tanstack/react-query';
-import { createTransactionDB } from './actions';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { createTransactionDB, getTransactionsDB } from './actions';
 
 export function useCreateTransaction() {
   return useMutation({
@@ -7,5 +7,12 @@ export function useCreateTransaction() {
     onSuccess: () => {
       console.log('success');
     },
+  });
+}
+
+export function useTransactions(bankrollId: string) {
+  return useQuery({
+    queryKey: ['transactions', bankrollId],
+    queryFn: () => getTransactionsDB(bankrollId),
   });
 }

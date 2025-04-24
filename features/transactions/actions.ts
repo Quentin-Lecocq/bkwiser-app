@@ -25,3 +25,19 @@ export async function createTransactionDB(
     throw new Error('Network error: ' + (error as Error).message);
   }
 }
+
+export async function getTransactionsDB(
+  bankrollId: string,
+): Promise<Transaction[]> {
+  try {
+    const res = await fetch(`/api/transactions?bankrollId=${bankrollId}`);
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch transactions');
+    }
+
+    return res.json();
+  } catch (error) {
+    throw new Error('Network error: ' + (error as Error).message);
+  }
+}

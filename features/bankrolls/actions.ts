@@ -27,7 +27,7 @@ export async function getBankrollByIdDB(id: string): Promise<Bankroll> {
   const res = await fetch(`/api/bankrolls/${id}`);
 
   if (!res.ok) {
-    throw new Error('Failed to fetch bankroll');
+    throw new Error('Failed to fetch bankrolls');
   }
 
   return res.json();
