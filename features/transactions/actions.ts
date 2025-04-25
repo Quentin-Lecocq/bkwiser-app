@@ -2,42 +2,22 @@ import {
   CreateTransactionInput,
   Transaction,
 } from '@/core/schemas/transaction.schema';
+import { httpRequest } from '@/lib/http-client';
 
-export async function createTransactionDB(
-  data: CreateTransactionInput,
-): Promise<Transaction> {
-  try {
-    const res = await fetch(`/api/bankrolls/${data.bankrollId}/transactions`, {
+export async function createTransactionDB(data: CreateTransactionInput) {
+  return httpRequest<Transaction>(
+    `/api/bankrolls/${data.bankrollId}/transactions`,
+    {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify(data),
-    });
-
-    if (!res.ok) {
-      const error = await res.json();
-      throw new Error(error.message || 'Failed to create transaction');
-    }
-
-    return res.json();
-  } catch (error) {
-    throw new Error('Network error: ' + (error as Error).message);
-  }
+    },
+  );
 }
 
 export async function getTransactionsDB(
   bankrollId: string,
 ): Promise<Transaction[]> {
-  try {
-    const res = await fetch(`/api/transactions?bankrollId=${bankrollId}`);
-
-    if (!res.ok) {
-      throw new Error('Failed to fetch transactions');
-    }
-
-    return res.json();
-  } catch (error) {
-    throw new Error('Network error: ' + (error as Error).message);
-  }
+  return httpRequest<Transaction[]>(
+    `/api/transactions?bankrollId=${bankrollId}`,
+  );
 }
