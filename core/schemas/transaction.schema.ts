@@ -8,21 +8,20 @@ export const createTransactionSchema = z.object({
   bankrollId: z.string().uuid(),
 });
 
+export type CreateTransactionInput = z.infer<typeof createTransactionSchema>;
+
 export const transactionSchema = createTransactionSchema.extend({
   id: z.string().uuid(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
 });
 
+export type Transaction = z.infer<typeof transactionSchema>;
+
 export const transactionFormSchema = z.object({
   type: z.enum(TRANSACTION_TYPES),
   amount: z.number().gt(0),
-  transactionDate: z
-    .string()
-    .optional()
-    .transform((value) => (value ? new Date(value).toISOString() : undefined)), // Transform to ISO string
+  transactionDate: z.string().optional(),
 });
 
-export type CreateTransactionInput = z.infer<typeof createTransactionSchema>;
-export type Transaction = z.infer<typeof transactionSchema>;
 export type TransactionFormInput = z.infer<typeof transactionFormSchema>;
