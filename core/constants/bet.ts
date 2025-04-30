@@ -1,4 +1,4 @@
-export const BET_TYPES = ['single', 'multiple'] as const;
+export const BET_TYPES = ['single', 'parlay'] as const;
 export type BetTypes = (typeof BET_TYPES)[number];
 
 export const BET_STATUS = [

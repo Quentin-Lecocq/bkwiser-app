@@ -25,6 +25,17 @@ export const betSchema = createBetSchema.extend({
 
 export type Bet = z.infer<typeof betSchema>;
 
-export const betFormSchema = z.object({});
+export const betFormSchema = z.object({
+  stake: z.number().gt(0),
+  type: z.enum(BET_TYPES),
+  legs: z.array(
+    z.object({
+      eventId: z.string().uuid(),
+      odds: z.number().gt(0),
+      status: z.enum(BET_STATUS),
+    }),
+  ),
+  date: z.string(),
+});
 
 export type BetFormInput = z.infer<typeof betFormSchema>;
