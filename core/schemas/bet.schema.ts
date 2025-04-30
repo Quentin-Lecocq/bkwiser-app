@@ -21,6 +21,7 @@ export const betSchema = createBetSchema.extend({
   id: z.string().uuid(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
+  bankrollId: z.string().uuid(),
 });
 
 export type Bet = z.infer<typeof betSchema>;
