@@ -6,13 +6,13 @@ export const CreateBetSchema = z.object({
   type: z.enum(BET_TYPES),
   legs: z.array(
     z.object({
-      id: z.string().uuid(),
       odds: z.number().gt(0),
       status: z.enum(BET_STATUS),
     }),
   ),
-  potentialWin: z.number().gt(0),
-  date: z.string().datetime().optional(),
+  date: z.string().refine((val) => !isNaN(Date.parse(val)), {
+    message: 'Invalid date format',
+  }),
   bankrollId: z.string().uuid(),
 });
 

@@ -1,4 +1,5 @@
 import GoBackButton from '@/components/go-back';
+import CreateBetForm from '@/features/bets/components/create-bet.form';
 
 export default async function Page({
   params,
@@ -9,7 +10,7 @@ export default async function Page({
   return (
     <div>
       <GoBackButton />
-      <p>Create Bet Form for bankroll {id}</p>
+      <CreateBetForm bankrollId={id} />
     </div>
   );
 }
