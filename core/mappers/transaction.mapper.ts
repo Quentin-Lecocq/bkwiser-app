@@ -1,15 +1,12 @@
+import {
+  Prisma,
+  Transaction as PrismaTransaction,
+} from '../../prisma/generated/client';
 import { TransactionTypes } from '../constants/transaction';
+
 import { Transaction } from '../schemas/transaction.schema';
 
-export function toDomain(prisma: {
-  id: string;
-  type: string;
-  amount: number;
-  transactionDate: Date;
-  createdAt: Date;
-  updatedAt: Date;
-  bankrollId: string;
-}): Transaction {
+export function toDomain(prisma: PrismaTransaction): Transaction {
   return {
     id: prisma.id,
     type: prisma.type as TransactionTypes,
@@ -21,15 +18,7 @@ export function toDomain(prisma: {
   };
 }
 
-export function toPersistence(tx: Transaction): {
-  id: string;
-  type: TransactionTypes;
-  amount: number;
-  transactionDate: Date;
-  createdAt: Date;
-  updatedAt: Date;
-  bankrollId: string;
-} {
+export function toPersistence(tx: Transaction): Prisma.TransactionCreateInput {
   return {
     id: tx.id,
     type: tx.type,
@@ -39,6 +28,8 @@ export function toPersistence(tx: Transaction): {
       : new Date(),
     createdAt: new Date(tx.createdAt),
     updatedAt: new Date(tx.updatedAt),
-    bankrollId: tx.bankrollId,
+    bankroll: {
+      connect: { id: tx.bankrollId },
+    },
   };
 }

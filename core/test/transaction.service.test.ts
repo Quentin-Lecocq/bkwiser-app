@@ -62,7 +62,9 @@ describe('transactionService', () => {
       expect.objectContaining({
         id: transaction.id,
         amount: 250,
-        bankrollId: 'bk-123',
+        bankroll: {
+          connect: { id: 'bk-123' }, // ✅ nouvelle forme correcte
+        },
         type: TRANSACTION_TYPES[0],
         createdAt: new Date(transaction.createdAt),
         updatedAt: new Date(transaction.updatedAt),
