@@ -13,6 +13,7 @@ export const createBetSchema = z.object({
   ),
   potentialWin: z.number().gt(0),
   date: z.string().datetime().optional(),
+  bankrollId: z.string().uuid(),
 });
 
 export type CreateBetInput = z.infer<typeof createBetSchema>;
@@ -21,7 +22,6 @@ export const betSchema = createBetSchema.extend({
   id: z.string().uuid(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
-  bankrollId: z.string().uuid(),
 });
 
 export type Bet = z.infer<typeof betSchema>;
