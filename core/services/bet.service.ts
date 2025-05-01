@@ -1,4 +1,4 @@
-import { betFactory } from '../factories/bet.factory';
+import { BetFactory } from '../factories/bet.factory';
 import { toPersistence } from '../mappers/bet.mapper';
 import { betRepository } from '../repositories/bet.repository';
 import { Bet, CreateBetInput } from '../schemas/bet.schema';
@@ -6,7 +6,7 @@ import { Bet, CreateBetInput } from '../schemas/bet.schema';
 export const betService = {
   async create(input: CreateBetInput): Promise<Bet> {
     try {
-      const bet = betFactory.create(input);
+      const bet = BetFactory.create(input);
 
       await betRepository.create(toPersistence(bet));
 

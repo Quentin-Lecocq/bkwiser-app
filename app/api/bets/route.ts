@@ -1,10 +1,10 @@
-import { createBetSchema } from '@/core/schemas/bet.schema';
+import { CreateBetSchema } from '@/core/schemas/bet.schema';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { error, data } = createBetSchema.safeParse(body);
+    const { error, data } = CreateBetSchema.safeParse(body);
 
     if (error) {
       return new NextResponse(

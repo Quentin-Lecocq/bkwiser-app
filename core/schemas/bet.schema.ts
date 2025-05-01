@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import { BET_STATUS, BET_TYPES } from '../constants/bet';
 
-export const createBetSchema = z.object({
+export const CreateBetSchema = z.object({
   stake: z.number().gt(0),
   type: z.enum(BET_TYPES),
   legs: z.array(
     z.object({
-      eventId: z.string().uuid(),
+      id: z.string().uuid(),
       odds: z.number().gt(0),
       status: z.enum(BET_STATUS),
     }),
@@ -16,22 +16,21 @@ export const createBetSchema = z.object({
   bankrollId: z.string().uuid(),
 });
 
-export type CreateBetInput = z.infer<typeof createBetSchema>;
+export type CreateBetInput = z.infer<typeof CreateBetSchema>;
 
-export const betSchema = createBetSchema.extend({
+export const BetSchema = CreateBetSchema.extend({
   id: z.string().uuid(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
 });
 
-export type Bet = z.infer<typeof betSchema>;
+export type Bet = z.infer<typeof BetSchema>;
 
-export const betFormSchema = z.object({
+export const BetFormSchema = z.object({
   stake: z.number().gt(0),
   type: z.enum(BET_TYPES),
   legs: z.array(
     z.object({
-      eventId: z.string().uuid(),
       odds: z.number().gt(0),
       status: z.enum(BET_STATUS),
     }),
@@ -39,4 +38,4 @@ export const betFormSchema = z.object({
   date: z.string(),
 });
 
-export type BetFormInput = z.infer<typeof betFormSchema>;
+export type BetFormInput = z.infer<typeof BetFormSchema>;

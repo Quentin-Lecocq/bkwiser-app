@@ -14,7 +14,7 @@ export function toDomain(prismaBet: PrismaBet): Bet {
     updatedAt: prismaBet.updatedAt.toISOString(),
     legs: prismaBet.legs as {
       status: BetStatus;
-      eventId: string;
+      id: string;
       odds: number;
     }[],
   };

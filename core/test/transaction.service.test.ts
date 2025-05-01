@@ -63,7 +63,7 @@ describe('transactionService', () => {
         id: transaction.id,
         amount: 250,
         bankroll: {
-          connect: { id: 'bk-123' }, // ✅ nouvelle forme correcte
+          connect: { id: 'bk-123' },
         },
         type: TRANSACTION_TYPES[0],
         createdAt: new Date(transaction.createdAt),
