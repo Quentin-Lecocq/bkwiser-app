@@ -24,6 +24,9 @@ export default async function Page({
         <Link href={`/bankrolls/${id}/transactions/new`}>
           <UIButton label="Add transaction" />
         </Link>
+        <Link href={`/bankrolls/${id}/bets/new`}>
+          <UIButton label="Add bet" />
+        </Link>
       </div>
     </div>
   );
