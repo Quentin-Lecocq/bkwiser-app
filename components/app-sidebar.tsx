@@ -1,6 +1,7 @@
 'use client';
 
-import { BookOpen, Bot, Settings2, SquareTerminal } from 'lucide-react';
+import { Bot, LayoutDashboard, SquareTerminal } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import * as React from 'react';
 
 import { NavMain } from '@/components/nav-main';
@@ -14,80 +15,74 @@ import {
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 
-// This is sample data.
-const data = {
-  user: {
-    name: 'john doe',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
-
-  navMain: [
-    {
-      title: 'Bankrolls',
-      url: '#',
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: 'All Bankrolls',
-          url: '/bankrolls',
-        },
-        {
-          title: 'Create Bankroll',
-          url: '/bankrolls/new',
-        },
-      ],
-    },
-    {
-      title: 'Bets',
-      url: '#',
-      icon: BookOpen,
-      items: [
-        {
-          title: 'My Bets',
-          url: '/bets',
-        },
-        {
-          title: 'New Bet',
-          url: '/bets/new',
-        },
-      ],
-    },
-    {
-      title: 'Transactions',
-      url: '#',
-      icon: Bot,
-      items: [
-        {
-          title: 'Deposit / Withdraw',
-          url: '/transactions',
-        },
-      ],
-    },
-    {
-      title: 'Settings',
-      url: '#',
-      icon: Settings2,
-      items: [
-        {
-          title: 'General',
-          url: '#',
-        },
-        {
-          title: 'Billing',
-          url: '#',
-        },
-        {
-          title: 'Limits',
-          url: '#',
-        },
-      ],
-    },
-  ],
-};
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname();
+
+  const data = {
+    user: {
+      name: 'john doe',
+      email: 'm@example.com',
+      avatar: '/avatars/shadcn.jpg',
+    },
+    navMain: [
+      {
+        title: 'Dashboard',
+        url: '/dashboard',
+        icon: LayoutDashboard,
+        isActive: pathname === '/dashboard',
+      },
+      {
+        title: 'Bankrolls',
+        url: '#',
+        icon: SquareTerminal,
+        items: [
+          {
+            title: 'All Bankrolls',
+            url: '/bankrolls',
+            isActive: pathname === '/bankrolls',
+          },
+          {
+            title: 'Create Bankroll',
+            url: '/bankrolls/new',
+            isActive: pathname === '/bankrolls/new',
+          },
+        ],
+      },
+      {
+        title: 'Transactions',
+        url: '#',
+        icon: Bot,
+        items: [
+          {
+            title: 'Deposit / Withdraw',
+            url: '/transactions',
+            isActive: pathname === '/transactions',
+          },
+        ],
+      },
+      // {
+      //   title: 'Settings',
+      //   url: '#',
+      //   icon: Settings2,
+      //   isActive: pathname.startsWith('/settings'),
+      //   items: [
+      //     {
+      //       title: 'General',
+      //       url: '#',
+      //     },
+      //     {
+      //       title: 'Billing',
+      //       url: '#',
+      //     },
+      //     {
+      //       title: 'Limits',
+      //       url: '#',
+      //     },
+      //   ],
+      // },
+    ],
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
