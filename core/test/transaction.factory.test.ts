@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { TransactionFactory } from '../factories/transaction.factory';
 import {
   CreateTransactionInput,
-  transactionSchema,
+  TransactionSchema,
 } from '../schemas/transaction.schema';
 import { sleep } from './helpers/sleep';
 import { today } from './helpers/today';
@@ -16,7 +16,7 @@ describe('TransactionFactory', () => {
       bankrollId: crypto.randomUUID(),
     };
     const transaction = TransactionFactory.create(input);
-    expect(transactionSchema.safeParse(transaction).success).toBe(true);
+    expect(TransactionSchema.safeParse(transaction).success).toBe(true);
   });
   it('should override amount and bankrollId correctly', () => {
     const transaction = TransactionFactory.create({

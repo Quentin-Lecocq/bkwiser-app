@@ -3,7 +3,7 @@
 import { TRANSACTION_TYPES } from '@/core/constants/transaction';
 import {
   TransactionFormInput,
-  transactionFormSchema,
+  TransactionFormSchema,
 } from '@/core/schemas/transaction.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -27,7 +27,7 @@ const CreateTransactionForm: FC<CreateTransactionFormProps> = ({
     formState: { errors },
     reset,
   } = useForm<TransactionFormInput>({
-    resolver: zodResolver(transactionFormSchema),
+    resolver: zodResolver(TransactionFormSchema),
     defaultValues: {
       type: 'deposit',
     },

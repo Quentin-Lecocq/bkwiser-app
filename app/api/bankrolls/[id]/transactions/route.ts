@@ -1,11 +1,11 @@
-import { createTransactionSchema } from '@/core/schemas/transaction.schema';
+import { CreateTransactionSchema } from '@/core/schemas/transaction.schema';
 import { createTransaction } from '@/features/transactions/use-cases/create-transaction';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { error, data } = createTransactionSchema.safeParse(body);
+    const { error, data } = CreateTransactionSchema.safeParse(body);
 
     if (error) {
       return new NextResponse(

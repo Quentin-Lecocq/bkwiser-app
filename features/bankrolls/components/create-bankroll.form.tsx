@@ -7,7 +7,7 @@ import {
 } from '@/core/constants/bankroll';
 import {
   CreateBankrollInput,
-  createBankrollSchema,
+  CreateBankrollSchema,
 } from '@/core/schemas/bankroll.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -24,7 +24,7 @@ const CreateBankrollForm = () => {
     formState: { errors },
     reset,
   } = useForm<CreateBankrollInput>({
-    resolver: zodResolver(createBankrollSchema),
+    resolver: zodResolver(CreateBankrollSchema),
     defaultValues: {
       status: 'private',
       currency: 'EUR',

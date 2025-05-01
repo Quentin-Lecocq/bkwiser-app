@@ -2,7 +2,7 @@ import { createBankrollError } from '@/core/errors/bankrolls/create-bankroll-err
 import {
   Bankroll,
   CreateBankrollInput,
-  createBankrollSchema,
+  CreateBankrollSchema,
 } from '@/core/schemas/bankroll.schema';
 import { bankrollService } from '@/core/services/bankroll.service';
 
@@ -10,7 +10,7 @@ export async function createBankroll(
   input: CreateBankrollInput,
 ): Promise<Bankroll> {
   try {
-    const { error, data } = createBankrollSchema.safeParse(input);
+    const { error, data } = CreateBankrollSchema.safeParse(input);
 
     if (error) {
       throw createBankrollError('Invalid input to create bankroll');

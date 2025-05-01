@@ -1,7 +1,7 @@
 import {
   CreateTransactionInput,
   Transaction,
-  transactionSchema,
+  TransactionSchema,
 } from '../schemas/transaction.schema';
 
 export const TransactionFactory = {
@@ -21,11 +21,11 @@ export const TransactionFactory = {
     };
   },
   isValid(transaction: Transaction): boolean {
-    const parsed = transactionSchema.safeParse(transaction);
+    const parsed = TransactionSchema.safeParse(transaction);
     return parsed.success;
   },
   fromRaw(data: unknown): Transaction | null {
-    const parsed = transactionSchema.safeParse(data);
+    const parsed = TransactionSchema.safeParse(data);
     if (!parsed.success) return null;
 
     return parsed.data;

@@ -1,6 +1,6 @@
 import {
   Bankroll,
-  bankrollSchema,
+  BankrollSchema,
   CreateBankrollInput,
 } from '../schemas/bankroll.schema';
 
@@ -20,7 +20,7 @@ export const BankrollFactory = {
     };
   },
   isValid(bankroll: Bankroll): boolean {
-    const parsed = bankrollSchema.safeParse(bankroll);
+    const parsed = BankrollSchema.safeParse(bankroll);
 
     return parsed.success;
   },
@@ -32,7 +32,7 @@ export const BankrollFactory = {
     };
   },
   fromRaw(data: unknown): Bankroll | null {
-    const parsed = bankrollSchema.safeParse(data);
+    const parsed = BankrollSchema.safeParse(data);
     if (!parsed.success) return null;
     return parsed.data;
   },
