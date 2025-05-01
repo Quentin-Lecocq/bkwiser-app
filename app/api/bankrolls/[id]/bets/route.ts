@@ -1,5 +1,6 @@
 import { CreateBetSchema } from '@/core/schemas/bet.schema';
 import { createBet } from '@/features/bets/use-cases/create-bet';
+import { getAllBets } from '@/features/bets/use-cases/get-all-bets';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -34,4 +35,32 @@ export async function POST(request: NextRequest) {
       },
     );
   }
+}
+
+export async function GET(
+  req: NextRequest,
+  {
+    params,
+  }: {
+    params: {
+      id: string;
+    };
+  },
+) {
+  const { id } = params;
+
+  console.log({ id });
+
+  if (!id) {
+    return NextResponse.json(
+      {
+        error: 'Missing bankrollId',
+      },
+      { status: 400 },
+    );
+  }
+
+  const bets = await getAllBets(id);
+
+  return NextResponse.json(bets, { status: 200 });
 }

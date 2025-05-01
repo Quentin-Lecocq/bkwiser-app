@@ -6,7 +6,14 @@ export async function GET(req: NextRequest) {
   const bankrollId = searchParams.get('bankrollId');
 
   if (!bankrollId) {
-    return NextResponse.json({ error: 'Missing bankrollId' }, { status: 400 });
+    return NextResponse.json(
+      {
+        error: 'Missing bankrollId',
+      },
+      {
+        status: 400,
+      },
+    );
   }
 
   const transactions = await getAllTransactions(bankrollId);

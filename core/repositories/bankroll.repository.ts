@@ -1,5 +1,5 @@
-import { Bankroll } from '@prisma/client';
 import { db } from '../../lib/db';
+import { Bankroll } from '../../prisma/generated/client';
 
 // abstraction of database
 export const bankrollRepository = {

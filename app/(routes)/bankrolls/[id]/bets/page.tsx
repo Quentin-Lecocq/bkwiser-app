@@ -1,5 +1,6 @@
 import GoBackButton from '@/components/go-back';
 import UIButton from '@/components/ui-button';
+import BetList from '@/features/bets/components/bet-list';
 import Link from 'next/link';
 
 export default async function Page({
@@ -12,7 +13,7 @@ export default async function Page({
     <div>
       <GoBackButton />
       <main className="py-4">
-        <p>Bet of bankroll {id}</p>
+        <BetList id={id} />
       </main>
       <div className="flex gap-2">
         <Link href="/bankroll">

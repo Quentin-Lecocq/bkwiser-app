@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createBetDB } from './actions';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createBetDB, getBetsDB } from './actions';
 
 export function useCreateBet() {
   const queryClient = useQueryClient();
@@ -11,5 +11,12 @@ export function useCreateBet() {
         queryKey: ['bets'],
       });
     },
+  });
+}
+
+export function useBets(bankrollId: string) {
+  return useQuery({
+    queryKey: ['bets', bankrollId],
+    queryFn: () => getBetsDB(bankrollId),
   });
 }
