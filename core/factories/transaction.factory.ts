@@ -4,7 +4,7 @@ import {
   transactionSchema,
 } from '../schemas/transaction.schema';
 
-export const transactionFactory = {
+export const TransactionFactory = {
   create(data: CreateTransactionInput): Transaction {
     const today = new Date().toISOString();
 

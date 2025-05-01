@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { transactionFactory } from '../factories/transaction.factory';
+import { TransactionFactory } from '../factories/transaction.factory';
 import {
   CreateTransactionInput,
   transactionSchema,
@@ -7,7 +7,7 @@ import {
 import { sleep } from './helpers/sleep';
 import { today } from './helpers/today';
 
-describe('transactionFactory', () => {
+describe('TransactionFactory', () => {
   it('should create a valid transaction object (schema)', () => {
     const input: CreateTransactionInput = {
       type: 'deposit',
@@ -15,11 +15,11 @@ describe('transactionFactory', () => {
       amount: 100,
       bankrollId: crypto.randomUUID(),
     };
-    const transaction = transactionFactory.create(input);
+    const transaction = TransactionFactory.create(input);
     expect(transactionSchema.safeParse(transaction).success).toBe(true);
   });
   it('should override amount and bankrollId correctly', () => {
-    const transaction = transactionFactory.create({
+    const transaction = TransactionFactory.create({
       type: 'withdraw',
       transactionDate: today(),
       amount: 42,
@@ -37,8 +37,8 @@ describe('transactionFactory', () => {
       bankrollId: crypto.randomUUID(),
     };
 
-    const tx1 = transactionFactory.create(input);
-    const tx2 = transactionFactory.create(input);
+    const tx1 = TransactionFactory.create(input);
+    const tx2 = TransactionFactory.create(input);
 
     expect(tx1.id).not.toBe(tx2.id);
   });
@@ -50,13 +50,13 @@ describe('transactionFactory', () => {
       bankrollId: crypto.randomUUID(),
     };
 
-    const transaction = transactionFactory.create(input);
+    const transaction = TransactionFactory.create(input);
 
-    expect(transactionFactory.isValid(transaction)).toBe(true);
+    expect(TransactionFactory.isValid(transaction)).toBe(true);
   });
   it('should invalidate transaction with amount equal to 0', () => {
     const invalid = {
-      ...transactionFactory.create({
+      ...TransactionFactory.create({
         type: 'deposit',
         transactionDate: today(),
         amount: 50,
@@ -65,11 +65,11 @@ describe('transactionFactory', () => {
       amount: 0,
     };
 
-    expect(transactionFactory.isValid(invalid)).toBe(false);
+    expect(TransactionFactory.isValid(invalid)).toBe(false);
   });
   it('should invalidate a transaction with a negative amount', () => {
     const invalid = {
-      ...transactionFactory.create({
+      ...TransactionFactory.create({
         type: 'withdraw',
         amount: 50,
         transactionDate: today(),
@@ -78,7 +78,7 @@ describe('transactionFactory', () => {
       amount: -20,
     };
 
-    expect(transactionFactory.isValid(invalid)).toBe(false);
+    expect(TransactionFactory.isValid(invalid)).toBe(false);
   });
   it('should create transaction from valid raw input', () => {
     const validRaw = {
@@ -94,7 +94,7 @@ describe('transactionFactory', () => {
     expect(validRaw?.amount).toBe(200);
   });
   it('should return null for invalid raw input', () => {
-    const result = transactionFactory.fromRaw({
+    const result = TransactionFactory.fromRaw({
       type: 'deposit',
       amount: 0,
       bankrollId: crypto.randomUUID(),
@@ -103,47 +103,47 @@ describe('transactionFactory', () => {
     expect(result).toBeNull();
   });
   it('should return true for deposit transactions', () => {
-    const tx = transactionFactory.create({
+    const tx = TransactionFactory.create({
       type: 'deposit',
       amount: 100,
       transactionDate: today(),
       bankrollId: crypto.randomUUID(),
     });
 
-    expect(transactionFactory.isDeposit(tx)).toBe(true);
+    expect(TransactionFactory.isDeposit(tx)).toBe(true);
   });
   it('should return false for withdraw transactions', () => {
-    const tx = transactionFactory.create({
+    const tx = TransactionFactory.create({
       type: 'withdraw',
       amount: 100,
       transactionDate: today(),
       bankrollId: crypto.randomUUID(),
     });
 
-    expect(transactionFactory.isDeposit(tx)).toBe(false);
+    expect(TransactionFactory.isDeposit(tx)).toBe(false);
   });
   it('should return true for withdraw transactions', () => {
-    const tx = transactionFactory.create({
+    const tx = TransactionFactory.create({
       type: 'withdraw',
       amount: 100,
       transactionDate: today(),
       bankrollId: crypto.randomUUID(),
     });
 
-    expect(transactionFactory.isWithdraw(tx)).toBe(true);
+    expect(TransactionFactory.isWithdraw(tx)).toBe(true);
   });
   it('should return false for deposit transactions', () => {
-    const tx = transactionFactory.create({
+    const tx = TransactionFactory.create({
       type: 'deposit',
       amount: 100,
       transactionDate: today(),
       bankrollId: crypto.randomUUID(),
     });
 
-    expect(transactionFactory.isWithdraw(tx)).toBe(false);
+    expect(TransactionFactory.isWithdraw(tx)).toBe(false);
   });
   it('should update the transaction amount', async () => {
-    const initialData = transactionFactory.create({
+    const initialData = TransactionFactory.create({
       type: 'deposit',
       amount: 200,
       transactionDate: today(),
@@ -151,7 +151,7 @@ describe('transactionFactory', () => {
     });
 
     await sleep(2);
-    const updatedTx = transactionFactory.update(initialData, {
+    const updatedTx = TransactionFactory.update(initialData, {
       amount: 300,
     });
 

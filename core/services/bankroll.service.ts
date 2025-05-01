@@ -1,4 +1,4 @@
-import { bankrollFactory } from '../factories/bankroll.factory';
+import { BankrollFactory } from '../factories/bankroll.factory';
 import { toDomain, toPersistence } from '../mappers/bankroll.mapper';
 import { bankrollRepository } from '../repositories/bankroll.repository';
 import { Bankroll, CreateBankrollInput } from '../schemas/bankroll.schema';
@@ -7,7 +7,7 @@ import { Transaction } from '../schemas/transaction.schema';
 export const bankrollService = {
   async create(input: CreateBankrollInput): Promise<Bankroll> {
     try {
-      const bankroll = bankrollFactory.create(input);
+      const bankroll = BankrollFactory.create(input);
       await bankrollRepository.create(toPersistence(bankroll));
       return bankroll;
     } catch (error) {
@@ -38,7 +38,7 @@ export const bankrollService = {
       const existing = await bankrollRepository.getById(id);
       if (!existing) return null;
 
-      const reset = bankrollFactory.reset(toDomain(existing));
+      const reset = BankrollFactory.reset(toDomain(existing));
       await bankrollRepository.update(toPersistence(reset));
       return reset;
     } catch (error) {

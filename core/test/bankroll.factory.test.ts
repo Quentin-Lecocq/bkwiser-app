@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { BANKROLL_CURRENCIES, BANKROLL_STATUS } from '../constants/bankroll';
-import { bankrollFactory } from '../factories/bankroll.factory';
+import { BankrollFactory } from '../factories/bankroll.factory';
 import { sleep } from './helpers/sleep';
 import { today } from './helpers/today';
 
-describe('bankrollFactory', () => {
+describe('BankrollFactory', () => {
   it('should create a valid bankroll object', () => {
-    const bk = bankrollFactory.create({
+    const bk = BankrollFactory.create({
       name: 'main',
       initialAmount: 100,
       status: 'private',
@@ -16,7 +16,7 @@ describe('bankrollFactory', () => {
     expect(bk.archivedAt).toBe(null);
   });
   it('should reset currentAmount to initialAmout and update updatedAt', async () => {
-    const bk = bankrollFactory.create({
+    const bk = BankrollFactory.create({
       name: 'reset me',
       initialAmount: 200,
       status: 'private',
@@ -31,24 +31,24 @@ describe('bankrollFactory', () => {
     // pause 1ms to avoid same timestamp
     await sleep(2);
 
-    const reset = bankrollFactory.reset(updated);
+    const reset = BankrollFactory.reset(updated);
 
     expect(reset.currentAmount).toBe(200);
     expect(reset.updatedAt).not.toBe(updated.updatedAt);
   });
   it('should validate a correct bankroll', () => {
-    const bk = bankrollFactory.create({
+    const bk = BankrollFactory.create({
       name: 'valid',
       initialAmount: 100,
       status: 'public',
       currency: 'EUR',
     });
 
-    expect(bankrollFactory.isValid(bk)).toBe(true);
+    expect(BankrollFactory.isValid(bk)).toBe(true);
   });
   it('should invalidate bankroll with empty name', () => {
     const invalid = {
-      ...bankrollFactory.create({
+      ...BankrollFactory.create({
         name: 'X',
         initialAmount: 100,
         status: 'private',
@@ -57,10 +57,10 @@ describe('bankrollFactory', () => {
       name: '',
     };
 
-    expect(bankrollFactory.isValid(invalid)).toBe(false);
+    expect(BankrollFactory.isValid(invalid)).toBe(false);
   });
   it('should return null for invalid raw input', () => {
-    const result = bankrollFactory.fromRaw({
+    const result = BankrollFactory.fromRaw({
       name: '',
       initialAmount: -100,
       status: 'troll',
@@ -82,14 +82,14 @@ describe('bankrollFactory', () => {
       archivedAt: null,
     };
 
-    const result = bankrollFactory.fromRaw(rawData);
+    const result = BankrollFactory.fromRaw(rawData);
 
     expect(result).not.toBeNull();
     expect(result?.name).toBe('Raw Bankroll');
     expect(result?.initialAmount).toBe(100);
   });
   it('should detect when a bankroll is archived', () => {
-    const bk = bankrollFactory.create({
+    const bk = BankrollFactory.create({
       name: 'archived',
       initialAmount: 100,
       status: 'private',
@@ -101,6 +101,6 @@ describe('bankrollFactory', () => {
       archivedAt: today(),
     };
 
-    expect(bankrollFactory.isArchived(archived)).toBe(true);
+    expect(BankrollFactory.isArchived(archived)).toBe(true);
   });
 });

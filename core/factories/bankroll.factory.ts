@@ -4,7 +4,7 @@ import {
   CreateBankrollInput,
 } from '../schemas/bankroll.schema';
 
-export const bankrollFactory = {
+export const BankrollFactory = {
   create(data: CreateBankrollInput): Bankroll {
     const today = new Date().toISOString();
     return {

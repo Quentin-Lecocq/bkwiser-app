@@ -1,4 +1,4 @@
-import { transactionFactory } from '../factories/transaction.factory';
+import { TransactionFactory } from '../factories/transaction.factory';
 import { toDomain, toPersistence } from '../mappers/transaction.mapper';
 import { transactionRepository } from '../repositories/transaction.repository';
 import {
@@ -10,7 +10,7 @@ import { bankrollService } from '../services/bankroll.service';
 export const transactionService = {
   async create(input: CreateTransactionInput): Promise<Transaction> {
     try {
-      const transaction = transactionFactory.create(input);
+      const transaction = TransactionFactory.create(input);
 
       await transactionRepository.create(toPersistence(transaction));
 
