@@ -25,6 +25,7 @@ model Bankroll {
   updatedAt     DateTime      @updatedAt
   archivedAt    DateTime?
   Transaction   Transaction[]
+  Bet           Bet[]         
 }
 
 enum TransactionType {
@@ -41,4 +42,17 @@ model Transaction {
   updatedAt  DateTime @updatedAt
   bankrollId String
   bankroll   Bankroll @relation(fields: [bankrollId], references: [id])
+}
+
+model Bet {
+  id            String    @id @default(uuid())
+  type          String
+  stake         Float
+  potentialWin  Float
+  date          DateTime
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  bankrollId    String
+  bankroll      Bankroll  @relation(fields: [bankrollId], references: [id])
+  legs          Json
 }
