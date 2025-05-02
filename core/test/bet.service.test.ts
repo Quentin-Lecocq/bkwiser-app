@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { BetFactory } from '../factories/bet.factory';
 import { toPersistence } from '../mappers/bet.mapper';
-import { betRepository } from '../repositories/bet.repository';
+import { BetRepository } from '../repositories/bet.repository';
 import { CreateBetInput } from '../schemas/bet.schema';
-import { betService } from '../services/bet.service';
+import { BetService } from '../services/bet.service';
 
 vi.mock('../repositories/bet.repository', () => ({
-  betRepository: {
+  BetRepository: {
     create: vi.fn(),
   },
 }));
@@ -21,8 +21,8 @@ vi.mock('../mappers/bet.mapper', () => ({
   toPersistence: vi.fn(),
 }));
 
-describe('betService', () => {
-  const mockedRepo = vi.mocked(betRepository);
+describe('BetService', () => {
+  const mockedRepo = vi.mocked(BetRepository);
   const mockedFactory = vi.mocked(BetFactory);
   const mockedMapper = vi.mocked(toPersistence);
 
@@ -61,7 +61,7 @@ describe('betService', () => {
     mockedFactory.create.mockReturnValue(fakeBet);
     mockedMapper.mockReturnValue(persistentBet);
 
-    const result = await betService.create(input);
+    const result = await BetService.create(input);
 
     expect(mockedFactory.create).toHaveBeenCalledWith(input);
     expect(mockedMapper).toHaveBeenCalledWith(fakeBet);
@@ -74,7 +74,7 @@ describe('betService', () => {
       throw new Error('Factory fail');
     });
 
-    await expect(betService.create(input)).rejects.toThrow(
+    await expect(BetService.create(input)).rejects.toThrow(
       'Bet creation failed',
     );
     expect(mockedRepo.create).not.toHaveBeenCalled();

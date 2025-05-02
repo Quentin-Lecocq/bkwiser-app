@@ -1,18 +1,18 @@
 import { TransactionFactory } from '../factories/transaction.factory';
 import { toDomain, toPersistence } from '../mappers/transaction.mapper';
-import { transactionRepository } from '../repositories/transaction.repository';
+import { TransactionRepository } from '../repositories/transaction.repository';
 import {
   CreateTransactionInput,
   Transaction,
 } from '../schemas/transaction.schema';
 import { BankrollService } from '../services/bankroll.service';
 
-export const transactionService = {
+export const TransactionService = {
   async create(input: CreateTransactionInput): Promise<Transaction> {
     try {
       const transaction = TransactionFactory.create(input);
 
-      await transactionRepository.create(toPersistence(transaction));
+      await TransactionRepository.create(toPersistence(transaction));
 
       await BankrollService.processTransaction(transaction, input.bankrollId);
 
@@ -24,7 +24,7 @@ export const transactionService = {
   },
   async getAllByBankrollId(bankrollId: string): Promise<Transaction[]> {
     try {
-      const rows = await transactionRepository.getAllByBankrollId(bankrollId);
+      const rows = await TransactionRepository.getAllByBankrollId(bankrollId);
       return rows.map(toDomain);
     } catch (error) {
       console.error('Error fetching all transactions:', error);

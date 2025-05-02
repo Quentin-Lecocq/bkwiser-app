@@ -1,7 +1,7 @@
 import { db } from '../../lib/db';
 import { Bet, Prisma } from '../../prisma/generated/client';
 
-export const betRepository = {
+export const BetRepository = {
   async create(data: Prisma.BetCreateInput): Promise<void> {
     await db.bet.create({ data });
   },

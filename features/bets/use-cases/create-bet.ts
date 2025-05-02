@@ -1,5 +1,5 @@
 import { CreateBetInput } from '@/core/schemas/bet.schema';
-import { betService } from '@/core/services/bet.service';
+import { BetService } from '@/core/services/bet.service';
 
 export async function createBet(input: CreateBetInput) {
   try {
@@ -7,7 +7,7 @@ export async function createBet(input: CreateBetInput) {
       throw new Error('heee');
     }
 
-    return await betService.create(input);
+    return await BetService.create(input);
   } catch (error) {
     console.error('Failed to create bet in use case', error);
   }

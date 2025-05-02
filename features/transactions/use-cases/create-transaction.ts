@@ -1,6 +1,6 @@
 import { createTransactionError } from '@/core/errors/transactions/create-transaction-error';
 import { CreateTransactionInput } from '@/core/schemas/transaction.schema';
-import { transactionService } from '@/core/services/transaction.service';
+import { TransactionService } from '@/core/services/transaction.service';
 
 export async function createTransaction(input: CreateTransactionInput) {
   try {
@@ -8,7 +8,7 @@ export async function createTransaction(input: CreateTransactionInput) {
       throw createTransactionError('Bankroll ID is required');
     }
 
-    return await transactionService.create(input);
+    return await TransactionService.create(input);
   } catch (error) {
     console.error('Failed to create transaction in use case:', error);
     throw createTransactionError('Transaction creation failed - use case');

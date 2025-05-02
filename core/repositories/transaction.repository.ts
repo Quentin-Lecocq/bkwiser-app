@@ -2,7 +2,7 @@ import { db } from '../../lib/db';
 import { Prisma, Transaction } from '../../prisma/generated/client';
 
 // abstaction of database
-export const transactionRepository = {
+export const TransactionRepository = {
   async create(data: Prisma.TransactionCreateInput): Promise<void> {
     await db.transaction.create({ data });
   },

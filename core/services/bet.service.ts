@@ -1,14 +1,14 @@
 import { BetFactory } from '../factories/bet.factory';
 import { toDomain, toPersistence } from '../mappers/bet.mapper';
-import { betRepository } from '../repositories/bet.repository';
+import { BetRepository } from '../repositories/bet.repository';
 import { Bet, CreateBetInput } from '../schemas/bet.schema';
 
-export const betService = {
+export const BetService = {
   async create(input: CreateBetInput): Promise<Bet> {
     try {
       const bet = BetFactory.create(input);
 
-      await betRepository.create(toPersistence(bet));
+      await BetRepository.create(toPersistence(bet));
 
       return bet;
     } catch (error) {
@@ -18,7 +18,7 @@ export const betService = {
   },
   async getAll(bankrollId: string) {
     try {
-      const rows = await betRepository.getAllByBankrollId(bankrollId);
+      const rows = await BetRepository.getAllByBankrollId(bankrollId);
       return rows.map(toDomain);
     } catch (error) {
       console.error('Error fetching all bets', error);

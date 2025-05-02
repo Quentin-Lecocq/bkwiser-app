@@ -2,8 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TRANSACTION_TYPES } from '../constants/transaction';
 import { toDomain } from '../mappers/transaction.mapper';
 import { BankrollRepository } from '../repositories/bankroll.repository';
-import { transactionRepository } from '../repositories/transaction.repository';
-import { transactionService } from '../services/transaction.service';
+import { TransactionRepository } from '../repositories/transaction.repository';
+import { TransactionService } from '../services/transaction.service';
 
 vi.mock('../repositories/bankroll.repository', () => ({
   bankrollRepository: {
@@ -13,7 +13,7 @@ vi.mock('../repositories/bankroll.repository', () => ({
 }));
 
 vi.mock('../repositories/transaction.repository', () => ({
-  transactionRepository: {
+  TransactionRepository: {
     create: vi.fn(),
     getAllByBankrollId: vi.fn(),
   },
@@ -21,7 +21,7 @@ vi.mock('../repositories/transaction.repository', () => ({
 
 describe('transactionService', () => {
   const mockedBankrollRepo = vi.mocked(BankrollRepository);
-  const mockedRepo = vi.mocked(transactionRepository);
+  const mockedRepo = vi.mocked(TransactionRepository);
 
   beforeEach(() => {
     mockedRepo.getAllByBankrollId.mockReset();
@@ -49,7 +49,7 @@ describe('transactionService', () => {
       bankrollId: 'bk-123',
     };
 
-    const transaction = await transactionService.create(input);
+    const transaction = await TransactionService.create(input);
 
     expect(transaction.type).toBe(TRANSACTION_TYPES[0]);
     expect(transaction.amount).toBe(250);
@@ -58,7 +58,7 @@ describe('transactionService', () => {
     expect(typeof transaction.createdAt).toBe('string');
     expect(typeof transaction.updatedAt).toBe('string');
 
-    expect(transactionRepository.create).toHaveBeenCalledWith(
+    expect(TransactionRepository.create).toHaveBeenCalledWith(
       expect.objectContaining({
         id: transaction.id,
         amount: 250,
@@ -96,7 +96,7 @@ describe('transactionService', () => {
 
     mockedRepo.getAllByBankrollId.mockResolvedValue(mockTransactions);
 
-    const result = await transactionService.getAllByBankrollId('bk1');
+    const result = await TransactionService.getAllByBankrollId('bk1');
 
     expect(result).toHaveLength(2);
     expect(result[0].id).toBe('tx1');
