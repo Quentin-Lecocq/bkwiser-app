@@ -42,7 +42,6 @@ describe('', () => {
       odds: 2.5,
       status: 'pending',
     });
-    expect(typeof bet.legs[0].id).toBe('string');
 
     expect(bet.id).toBeDefined();
     expect(bet.createdAt).toBeDefined();

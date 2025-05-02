@@ -49,8 +49,6 @@ export async function GET(
 ) {
   const { id } = params;
 
-  console.log({ id });
-
   if (!id) {
     return NextResponse.json(
       {
