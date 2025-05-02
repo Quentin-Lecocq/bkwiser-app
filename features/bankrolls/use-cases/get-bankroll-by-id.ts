@@ -1,10 +1,10 @@
 import { getBankrollByIdError } from '@/core/errors/bankrolls/get-bankroll-by-id-error';
 import { Bankroll } from '@/core/schemas/bankroll.schema';
-import { bankrollService } from '@/core/services/bankroll.service';
+import { BankrollService } from '@/core/services/bankroll.service';
 
 export async function getBankrollById(id: string): Promise<Bankroll> {
   try {
-    const bankroll = await bankrollService.getById(id);
+    const bankroll = await BankrollService.getById(id);
 
     if (!bankroll) {
       throw getBankrollByIdError(`Bankroll with ID ${id} not found`);

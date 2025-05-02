@@ -1,17 +1,11 @@
+import {
+  Prisma,
+  Bankroll as PrismaBankroll,
+} from '../../prisma/generated/client';
 import { BankrollCurrencies, BankrollStatus } from '../constants/bankroll';
 import { Bankroll } from '../schemas/bankroll.schema';
 
-export function toDomain(prisma: {
-  id: string;
-  name: string;
-  initialAmount: number;
-  currentAmount: number;
-  status: string;
-  currency: string;
-  createdAt: Date;
-  updatedAt: Date;
-  archivedAt: Date | null;
-}): Bankroll {
+export function toDomain(prisma: PrismaBankroll): Bankroll {
   return {
     id: prisma.id,
     name: prisma.name,
@@ -25,17 +19,7 @@ export function toDomain(prisma: {
   };
 }
 
-export function toPersistence(bk: Bankroll): {
-  id: string;
-  name: string;
-  initialAmount: number;
-  currentAmount: number;
-  status: string;
-  currency: string;
-  createdAt: Date;
-  updatedAt: Date;
-  archivedAt: Date | null;
-} {
+export function toPersistence(bk: Bankroll): Prisma.BankrollCreateInput {
   return {
     id: bk.id,
     name: bk.name,

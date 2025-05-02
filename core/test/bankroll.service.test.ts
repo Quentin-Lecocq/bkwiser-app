@@ -2,12 +2,12 @@ import type { Bankroll as PrismaBankroll } from '@prisma/client';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TRANSACTION_TYPES } from '../constants/transaction';
 import { toPersistence } from '../mappers/bankroll.mapper';
-import { bankrollRepository } from '../repositories/bankroll.repository';
+import { BankrollRepository } from '../repositories/bankroll.repository';
 import { CreateBankrollInput } from '../schemas/bankroll.schema';
-import { bankrollService } from '../services/bankroll.service';
+import { BankrollService } from '../services/bankroll.service';
 
 vi.mock('../repositories/bankroll.repository', () => ({
-  bankrollRepository: {
+  BankrollRepository: {
     create: vi.fn(),
     getById: vi.fn(),
     update: vi.fn(),
@@ -16,7 +16,7 @@ vi.mock('../repositories/bankroll.repository', () => ({
 }));
 
 describe('bankrollService', () => {
-  const mockedRepo = vi.mocked(bankrollRepository);
+  const mockedRepo = vi.mocked(BankrollRepository);
   beforeEach(() => {
     mockedRepo.getById.mockReset();
     mockedRepo.update.mockReset();
@@ -31,7 +31,7 @@ describe('bankrollService', () => {
       currency: 'EUR',
     };
 
-    const bankroll = await bankrollService.create(input);
+    const bankroll = await BankrollService.create(input);
 
     expect(bankroll.name).toBe('Test BK');
     expect(bankroll.initialAmount).toBe(100);
@@ -41,7 +41,7 @@ describe('bankrollService', () => {
     expect(bankroll.archivedAt).toBeNull();
     expect(typeof bankroll.id).toBe('string');
 
-    expect(bankrollRepository.create).toHaveBeenCalledWith(
+    expect(BankrollRepository.create).toHaveBeenCalledWith(
       toPersistence(bankroll),
     );
   });
@@ -64,7 +64,7 @@ describe('bankrollService', () => {
 
     mockedRepo.getById.mockResolvedValue(initial);
 
-    const result = await bankrollService.reset('bk1');
+    const result = await BankrollService.reset('bk1');
 
     expect(result).not.toBeNull();
     expect(result?.currentAmount).toBe(150);
@@ -78,7 +78,7 @@ describe('bankrollService', () => {
   it('should return null if bankroll does not exist', async () => {
     mockedRepo.getById.mockResolvedValue(null);
 
-    const result = await bankrollService.reset('does-not-exist');
+    const result = await BankrollService.reset('does-not-exist');
 
     expect(result).toBeNull();
     expect(mockedRepo.update).not.toHaveBeenCalled();
@@ -102,7 +102,7 @@ describe('bankrollService', () => {
 
     mockedRepo.getById.mockResolvedValue(initial);
 
-    const result = await bankrollService.archive('bk2');
+    const result = await BankrollService.archive('bk2');
 
     expect(result).not.toBeNull();
     expect(result?.archivedAt).toBe(now.toISOString());
@@ -145,7 +145,7 @@ describe('bankrollService', () => {
 
     mockedRepo.getAll.mockResolvedValue(mockList);
 
-    const result = await bankrollService.getAll();
+    const result = await BankrollService.getAll();
 
     expect(result).toHaveLength(2);
     expect(result[0].name).toBe('Bankroll 1');
@@ -171,7 +171,7 @@ describe('bankrollService', () => {
       updatedAt: new Date(mockBankroll.updatedAt),
     });
 
-    const result = await bankrollService.getById('bk-id');
+    const result = await BankrollService.getById('bk-id');
 
     expect(result).toEqual(mockBankroll);
     expect(mockedRepo.getById).toHaveBeenCalledWith('bk-id');
@@ -206,7 +206,7 @@ describe('bankrollService', () => {
       updatedAt: new Date('2025-04-23T10:00:00Z'),
     });
 
-    const result = await bankrollService.processTransaction(
+    const result = await BankrollService.processTransaction(
       transaction,
       bankrollId,
     );
@@ -235,7 +235,7 @@ describe('bankrollService', () => {
     mockedRepo.getById.mockResolvedValue(null);
 
     await expect(
-      bankrollService.processTransaction(transaction, bankrollId),
+      BankrollService.processTransaction(transaction, bankrollId),
     ).rejects.toThrow('Bankroll with ID nonexistent-bk not found');
 
     expect(mockedRepo.getById).toHaveBeenCalledWith(bankrollId);
@@ -268,7 +268,7 @@ describe('bankrollService', () => {
     mockedRepo.getById.mockResolvedValue(initial);
 
     await expect(
-      bankrollService.processTransaction(transaction, bankrollId),
+      BankrollService.processTransaction(transaction, bankrollId),
     ).rejects.toThrow('Insufficient funds for withdrawal');
 
     expect(mockedRepo.getById).toHaveBeenCalledWith(bankrollId);

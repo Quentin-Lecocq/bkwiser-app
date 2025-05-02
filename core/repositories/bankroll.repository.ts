@@ -1,9 +1,9 @@
 import { db } from '../../lib/db';
-import { Bankroll } from '../../prisma/generated/client';
+import { Bankroll, Prisma } from '../../prisma/generated/client';
 
 // abstraction of database
-export const bankrollRepository = {
-  async create(bankroll: Bankroll): Promise<void> {
+export const BankrollRepository = {
+  async create(bankroll: Prisma.BankrollCreateInput): Promise<void> {
     await db.bankroll.create({ data: bankroll });
   },
   async getAll(): Promise<Bankroll[]> {
@@ -14,7 +14,7 @@ export const bankrollRepository = {
       where: { id },
     });
   },
-  async update(bankroll: Bankroll): Promise<Bankroll> {
+  async update(bankroll: Prisma.BankrollCreateInput): Promise<Bankroll> {
     return db.bankroll.update({
       where: { id: bankroll.id },
       data: bankroll,

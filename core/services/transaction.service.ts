@@ -5,7 +5,7 @@ import {
   CreateTransactionInput,
   Transaction,
 } from '../schemas/transaction.schema';
-import { bankrollService } from '../services/bankroll.service';
+import { BankrollService } from '../services/bankroll.service';
 
 export const transactionService = {
   async create(input: CreateTransactionInput): Promise<Transaction> {
@@ -14,7 +14,7 @@ export const transactionService = {
 
       await transactionRepository.create(toPersistence(transaction));
 
-      await bankrollService.processTransaction(transaction, input.bankrollId);
+      await BankrollService.processTransaction(transaction, input.bankrollId);
 
       return transaction;
     } catch (error) {

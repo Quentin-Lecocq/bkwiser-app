@@ -4,7 +4,7 @@ import {
   CreateBankrollInput,
   CreateBankrollSchema,
 } from '@/core/schemas/bankroll.schema';
-import { bankrollService } from '@/core/services/bankroll.service';
+import { BankrollService } from '@/core/services/bankroll.service';
 
 export async function createBankroll(
   input: CreateBankrollInput,
@@ -16,7 +16,7 @@ export async function createBankroll(
       throw createBankrollError('Invalid input to create bankroll');
     }
 
-    const bankroll = await bankrollService.create(data);
+    const bankroll = await BankrollService.create(data);
     return bankroll;
   } catch (error) {
     console.error('Failed to create bankroll:', error);

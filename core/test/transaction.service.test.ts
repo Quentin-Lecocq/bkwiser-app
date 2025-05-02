@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TRANSACTION_TYPES } from '../constants/transaction';
 import { toDomain } from '../mappers/transaction.mapper';
-import { bankrollRepository } from '../repositories/bankroll.repository';
+import { BankrollRepository } from '../repositories/bankroll.repository';
 import { transactionRepository } from '../repositories/transaction.repository';
 import { transactionService } from '../services/transaction.service';
 
@@ -20,7 +20,7 @@ vi.mock('../repositories/transaction.repository', () => ({
 }));
 
 describe('transactionService', () => {
-  const mockedBankrollRepo = vi.mocked(bankrollRepository);
+  const mockedBankrollRepo = vi.mocked(BankrollRepository);
   const mockedRepo = vi.mocked(transactionRepository);
 
   beforeEach(() => {
