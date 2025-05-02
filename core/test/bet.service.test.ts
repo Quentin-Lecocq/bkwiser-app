@@ -31,10 +31,8 @@ describe('betService', () => {
     stake: 100,
     date: '2025-05-01T10:00:00.000Z',
     bankrollId: 'bankroll-id',
-    potentialWin: 250,
     legs: [
       {
-        id: 'leg-id',
         odds: 2.5,
         status: 'pending',
       },
@@ -43,6 +41,7 @@ describe('betService', () => {
 
   const fakeBet = {
     id: 'bet-id',
+    potentialWin: 250,
     createdAt: 'now',
     updatedAt: 'now',
     ...input,

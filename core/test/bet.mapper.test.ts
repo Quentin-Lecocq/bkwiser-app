@@ -15,7 +15,6 @@ describe('bet.mapper', () => {
       updatedAt: new Date('2025-05-01T09:30:00Z'),
       legs: [
         {
-          id: 'leg-id',
           odds: 2.5,
           status: 'pending',
         },
@@ -35,7 +34,6 @@ describe('bet.mapper', () => {
       updatedAt: '2025-05-01T09:30:00.000Z',
       legs: [
         {
-          id: 'leg-id',
           odds: 2.5,
           status: 'pending',
         },
@@ -55,7 +53,6 @@ describe('bet.mapper', () => {
       updatedAt: '2025-05-01T09:30:00.000Z',
       legs: [
         {
-          id: 'leg-id',
           odds: 2.5,
           status: 'pending',
         },
@@ -77,7 +74,6 @@ describe('bet.mapper', () => {
       },
       legs: [
         {
-          id: 'leg-id',
           odds: 2.5,
           status: 'pending',
         },
