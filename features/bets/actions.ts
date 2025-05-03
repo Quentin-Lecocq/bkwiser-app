@@ -9,6 +9,16 @@ export async function createBetDB(data: BetFormInput & { bankrollId: string }) {
 }
 
 export async function getBetsDB(bankrollId: string): Promise<Bet[]> {
-  console.log({ bankrollId });
   return httpRequest<Bet[]>(`/api/bankrolls/${bankrollId}/bets`);
+}
+
+export async function updateBetDB(data: BetFormInput & { id: string }) {
+  return httpRequest<Bet>(`/api/bets/${data.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  });
+}
+
+export async function getBetDB(id: string): Promise<Bet> {
+  return httpRequest<Bet>(`/api/bets/${id}`);
 }

@@ -15,7 +15,6 @@ const BetList: FC<BetListProps> = ({ id }) => {
   const pathname = usePathname();
   const { data: bets = [], isLoading } = useBets(id);
 
-  console.log({ pathname });
   if (isLoading) return <p className="text-sm text-gray-400">Chargement...</p>;
   if (!bets.length)
     return <p className="text-sm text-gray-400">Aucun pari trouvé.</p>;

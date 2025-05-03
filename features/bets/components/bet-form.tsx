@@ -23,14 +23,11 @@ const BetForm: FC<BetFormProps> = ({
   isPending = false,
   submitLabel = 'Submit',
 }) => {
-  // const { mutate: createBet, isPending, error } = useCreateBet();
-
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-    reset,
   } = useForm<BetFormInput>({
     resolver: zodResolver(BetFormSchema),
     defaultValues,
@@ -40,20 +37,6 @@ const BetForm: FC<BetFormProps> = ({
     control,
     name: 'legs',
   });
-
-  // function onSubmit(data: BetFormInput) {
-  //   const formatted = {
-  //     ...data,
-  //     bankrollId,
-  //   };
-
-  //   createBet(formatted, {
-  //     onSuccess: () => {
-  //       router.back();
-  //       reset();
-  //     },
-  //   });
-  // }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -87,11 +70,6 @@ const BetForm: FC<BetFormProps> = ({
         <h3 className="font-semibold">Legs</h3>
         {fields.map((field, index) => (
           <div key={field.id} className="border p-2 rounded">
-            {/* <input
-              {...register(`legs.${index}`)}
-              placeholder="Leg ID"
-              className="p-1 border rounded w-full mb-1"
-            /> */}
             <input
               type="number"
               step="0.01"
@@ -126,8 +104,6 @@ const BetForm: FC<BetFormProps> = ({
           + Add leg
         </button>
       </div>
-
-      {/* {error && <p className="text-red-500">{error.message}</p>} */}
 
       <button
         type="submit"

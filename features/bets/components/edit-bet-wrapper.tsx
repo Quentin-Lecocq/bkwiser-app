@@ -1,19 +1,22 @@
+'use client';
+
 import { BetFormInput } from '@/core/schemas/bet.schema';
 import { useRouter } from 'next/navigation';
-import { useUpdateBet } from '../hooks';
+import { useBet, useUpdateBet } from '../hooks';
 import BetForm from './bet-form';
 
 type EditBetWrapperProps = {
   betId: string;
-  initialValues: BetFormInput;
 };
 
-export default function EditBetWrapper({
-  betId,
-  initialValues,
-}: EditBetWrapperProps) {
+export default function EditBetWrapper({ betId }: EditBetWrapperProps) {
   const router = useRouter();
-  const { mutate: updateBet, isPending, error } = useUpdateBet();
+  const {
+    mutate: updateBet,
+    isPending: isUpdating,
+    error: updateError,
+  } = useUpdateBet();
+  const { data: bet, isLoading, isError } = useBet(betId);
 
   const handleUpdate = (data: BetFormInput) => {
     updateBet(
@@ -26,15 +29,18 @@ export default function EditBetWrapper({
     );
   };
 
+  if (isLoading) return <p>Loading bet details...</p>;
+  if (isError) return <p>Failed to load bet details.</p>;
+
   return (
     <div>
       <BetForm
-        defaultValues={initialValues}
+        defaultValues={bet}
         onSubmit={handleUpdate}
-        isPending={isPending}
+        isPending={isUpdating}
         submitLabel="Update"
       />
-      {error && <p className="text-red-500">{error.message}</p>}
+      {updateError && <p className="text-red-500">{updateError.message}</p>}
     </div>
   );
 }

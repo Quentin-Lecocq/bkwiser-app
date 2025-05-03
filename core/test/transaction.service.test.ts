@@ -6,7 +6,7 @@ import { TransactionRepository } from '../repositories/transaction.repository';
 import { TransactionService } from '../services/transaction.service';
 
 vi.mock('../repositories/bankroll.repository', () => ({
-  bankrollRepository: {
+  BankrollRepository: {
     getById: vi.fn(),
     update: vi.fn(),
   },

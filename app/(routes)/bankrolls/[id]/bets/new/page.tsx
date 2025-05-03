@@ -1,5 +1,5 @@
 import GoBackButton from '@/components/go-back';
-import BetFormWrapper from '@/features/bets/components/bet-form-wrapper';
+import CreateBetWrapper from '@/features/bets/components/create-bet-wrapper';
 
 export default async function Page({
   params,
@@ -10,7 +10,7 @@ export default async function Page({
   return (
     <div>
       <GoBackButton />
-      <BetFormWrapper bankrollId={id} />
+      <CreateBetWrapper bankrollId={id} />
     </div>
   );
 }

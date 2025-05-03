@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createBetDB, getBetsDB } from './actions';
+import { createBetDB, getBetDB, getBetsDB, updateBetDB } from './actions';
 
 export function useCreateBet() {
   const queryClient = useQueryClient();
@@ -21,4 +21,22 @@ export function useBets(bankrollId: string) {
   });
 }
 
-export function useUpdateBet() {}
+export function useUpdateBet() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateBetDB,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['bets'],
+      });
+    },
+  });
+}
+
+export function useBet(id: string) {
+  return useQuery({
+    queryKey: ['bet', id],
+    queryFn: () => getBetDB(id),
+  });
+}
