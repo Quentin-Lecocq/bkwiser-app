@@ -1,5 +1,5 @@
 import { CreateTransactionSchema } from '@/core/schemas/transaction.schema';
-import { createTransaction } from '@/features/transactions/use-cases/create-transaction';
+import { createTransaction } from '@/core/use-cases/transactions/create-transaction';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {

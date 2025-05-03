@@ -11,7 +11,9 @@ export const BankrollRepository = {
   },
   async getById(id: string): Promise<Bankroll | null> {
     return db.bankroll.findUnique({
-      where: { id },
+      where: {
+        id,
+      },
     });
   },
   async update(bankroll: Prisma.BankrollCreateInput): Promise<Bankroll> {

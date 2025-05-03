@@ -25,4 +25,13 @@ export const BetService = {
       throw new Error('Failed to fetch bets');
     }
   },
+  async getById(id: string): Promise<Bet | null> {
+    try {
+      const row = await BetRepository.getById(id);
+      return row ? toDomain(row) : null;
+    } catch (error) {
+      console.error(`Error fetching bet with id ${id}:`, error);
+      throw new Error('Failed to fetch bet');
+    }
+  },
 };

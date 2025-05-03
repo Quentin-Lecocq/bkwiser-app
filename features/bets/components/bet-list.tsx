@@ -1,6 +1,9 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { FC } from 'react';
 import { useBets } from '../hooks';
 
@@ -9,8 +12,10 @@ type BetListProps = {
 };
 
 const BetList: FC<BetListProps> = ({ id }) => {
+  const pathname = usePathname();
   const { data: bets = [], isLoading } = useBets(id);
 
+  console.log({ pathname });
   if (isLoading) return <p className="text-sm text-gray-400">Chargement...</p>;
   if (!bets.length)
     return <p className="text-sm text-gray-400">Aucun pari trouvé.</p>;
@@ -32,9 +37,14 @@ const BetList: FC<BetListProps> = ({ id }) => {
                 <span className="text-sm text-primary">
                   {format(new Date(bet.date), 'MM/dd/yyyy')}
                 </span>
-                <span className="text-xs rounded-full text-primary-foreground bg-gray-100 px-2 py-1">
-                  {bet.type.toUpperCase()}
-                </span>
+                <div>
+                  <Link href={`${pathname}/${bet.id}`}>
+                    <Button>Editer</Button>
+                  </Link>
+                  <span className="text-xs rounded-full text-primary-foreground bg-gray-100 px-2 py-1">
+                    {bet.type.toUpperCase()}
+                  </span>
+                </div>
               </div>
               <div className="text-sm text-primary space-y-1">
                 <p>

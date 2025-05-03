@@ -3,18 +3,27 @@
 import { BET_TYPES } from '@/core/constants/bet';
 import { BetFormInput, BetFormSchema } from '@/core/schemas/bet.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { useCreateBet } from '../hooks';
 
-type CreateBetFormProps = {
-  bankrollId: string;
+type BetFormProps = {
+  defaultValues?: BetFormInput;
+  onSubmit: (data: BetFormInput) => void;
+  isPending?: boolean;
+  submitLabel?: string;
 };
 
-const CreateBetForm: FC<CreateBetFormProps> = ({ bankrollId }) => {
-  const router = useRouter();
-  const { mutate: createBet, isPending, error } = useCreateBet();
+const BetForm: FC<BetFormProps> = ({
+  defaultValues = {
+    type: 'single',
+    stake: 0,
+    legs: [{ odds: 0, status: 'pending' }],
+  },
+  onSubmit,
+  isPending = false,
+  submitLabel = 'Submit',
+}) => {
+  // const { mutate: createBet, isPending, error } = useCreateBet();
 
   const {
     register,
@@ -24,11 +33,7 @@ const CreateBetForm: FC<CreateBetFormProps> = ({ bankrollId }) => {
     reset,
   } = useForm<BetFormInput>({
     resolver: zodResolver(BetFormSchema),
-    defaultValues: {
-      type: 'single',
-      stake: 0,
-      legs: [{ odds: 0, status: 'pending' }],
-    },
+    defaultValues,
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -36,19 +41,19 @@ const CreateBetForm: FC<CreateBetFormProps> = ({ bankrollId }) => {
     name: 'legs',
   });
 
-  function onSubmit(data: BetFormInput) {
-    const formatted = {
-      ...data,
-      bankrollId,
-    };
+  // function onSubmit(data: BetFormInput) {
+  //   const formatted = {
+  //     ...data,
+  //     bankrollId,
+  //   };
 
-    createBet(formatted, {
-      onSuccess: () => {
-        router.back();
-        reset();
-      },
-    });
-  }
+  //   createBet(formatted, {
+  //     onSuccess: () => {
+  //       router.back();
+  //       reset();
+  //     },
+  //   });
+  // }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -122,17 +127,17 @@ const CreateBetForm: FC<CreateBetFormProps> = ({ bankrollId }) => {
         </button>
       </div>
 
-      {error && <p className="text-red-500">{error.message}</p>}
+      {/* {error && <p className="text-red-500">{error.message}</p>} */}
 
       <button
         type="submit"
         disabled={isPending}
         className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
       >
-        {isPending ? 'Creating...' : 'Create'}
+        {isPending ? 'Submitting...' : submitLabel}
       </button>
     </form>
   );
 };
 
-export default CreateBetForm;
+export default BetForm;

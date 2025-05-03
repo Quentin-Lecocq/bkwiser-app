@@ -1,4 +1,4 @@
-import { getBankrollById } from '@/core/use-cases/bankrolls/get-bankroll-by-id';
+import { getBetById } from '@/core/use-cases/bets/get-bet-by-id';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
@@ -14,15 +14,15 @@ export async function GET(
         { status: 400 },
       );
     }
-    const bankroll = await getBankrollById(id);
-    return NextResponse.json(bankroll, {
+
+    const bet = await getBetById(id);
+    return NextResponse.json(bet, {
       status: 200,
     });
   } catch (error) {
-    console.error('Error in GET /api/bankrolls/id', error);
-    return new NextResponse(
-      JSON.stringify({ error: 'Failed to fetch bankroll' }),
-      { status: 500 },
-    );
+    console.error('Error in GET /api/bets/id', error);
+    return new NextResponse(JSON.stringify({ error: 'Failed to fetch bet' }), {
+      status: 500,
+    });
   }
 }

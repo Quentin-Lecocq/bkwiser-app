@@ -1,6 +1,6 @@
 import { CreateBetSchema } from '@/core/schemas/bet.schema';
-import { createBet } from '@/features/bets/use-cases/create-bet';
-import { getAllBets } from '@/features/bets/use-cases/get-all-bets';
+import { createBet } from '@/core/use-cases/bets/create-bet';
+import { getAllBets } from '@/core/use-cases/bets/get-all-bets';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {

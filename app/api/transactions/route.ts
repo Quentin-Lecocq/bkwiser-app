@@ -1,4 +1,4 @@
-import { getAllTransactions } from '@/features/transactions/use-cases/get-all-transactions';
+import { getAllTransactions } from '@/core/use-cases/transactions/get-all-transactions';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {

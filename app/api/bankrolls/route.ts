@@ -1,6 +1,6 @@
 import { CreateBankrollSchema } from '@/core/schemas/bankroll.schema';
-import { createBankroll } from '@/features/bankrolls/use-cases/create-bankroll';
-import { getAllBankrolls } from '@/features/bankrolls/use-cases/get-all-bankrolls';
+import { createBankroll } from '@/core/use-cases/bankrolls/create-bankroll';
+import { getAllBankrolls } from '@/core/use-cases/bankrolls/get-all-bankrolls';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {

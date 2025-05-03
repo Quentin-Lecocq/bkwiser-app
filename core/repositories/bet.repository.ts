@@ -12,4 +12,11 @@ export const BetRepository = {
       },
     });
   },
+  async getById(id: string): Promise<Bet | null> {
+    return db.bet.findUnique({
+      where: {
+        id,
+      },
+    });
+  },
 };

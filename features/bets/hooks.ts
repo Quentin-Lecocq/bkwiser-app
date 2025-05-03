@@ -20,3 +20,5 @@ export function useBets(bankrollId: string) {
     queryFn: () => getBetsDB(bankrollId),
   });
 }
+
+export function useUpdateBet() {}

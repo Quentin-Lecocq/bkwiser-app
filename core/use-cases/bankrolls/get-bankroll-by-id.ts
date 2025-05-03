@@ -7,7 +7,7 @@ export async function getBankrollById(id: string): Promise<Bankroll> {
     const bankroll = await BankrollService.getById(id);
 
     if (!bankroll) {
-      throw getBankrollByIdError(`Bankroll with ID ${id} not found`);
+      throw getBankrollByIdError(`Bankroll with id ${id} not found`);
     }
 
     return bankroll;
