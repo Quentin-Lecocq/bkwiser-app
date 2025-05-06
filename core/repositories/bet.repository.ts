@@ -10,6 +10,9 @@ export const BetRepository = {
       where: {
         bankrollId: id,
       },
+      orderBy: {
+        date: 'desc',
+      },
     });
   },
   async getById(id: string): Promise<Bet | null> {
@@ -17,6 +20,14 @@ export const BetRepository = {
       where: {
         id,
       },
+    });
+  },
+  async update(id: string, data: Prisma.BetUpdateInput): Promise<Bet> {
+    return db.bet.update({
+      where: {
+        id,
+      },
+      data,
     });
   },
 };

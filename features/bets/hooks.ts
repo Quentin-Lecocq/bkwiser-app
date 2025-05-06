@@ -31,6 +31,9 @@ export function useUpdateBet() {
         queryKey: ['bets'],
       });
     },
+    onError: (error) => {
+      console.error('Error updating bet:', error);
+    },
   });
 }
 

@@ -34,4 +34,23 @@ export const BetService = {
       throw new Error('Failed to fetch bet');
     }
   },
+  async update(
+    betId: string,
+    data: Partial<CreateBetInput>,
+  ): Promise<Bet | null> {
+    try {
+      const bet = await this.getById(betId);
+      if (!bet) {
+        throw new Error('Bet not found');
+      }
+
+      const updatedBet = BetFactory.update(bet, data);
+      await BetRepository.update(betId, toPersistence(updatedBet));
+
+      return updatedBet;
+    } catch (error) {
+      console.error(`Error updating bet with id ${betId}:`, error);
+      throw new Error('Failed to update bet');
+    }
+  },
 };

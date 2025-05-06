@@ -16,7 +16,28 @@ export const CreateBetSchema = z.object({
   bankrollId: z.string().uuid(),
 });
 
+export const EditBetSchema = z.object({
+  stake: z.number().gt(0).optional(),
+  type: z.enum(BET_TYPES).optional(),
+  legs: z
+    .array(
+      z.object({
+        odds: z.number().gt(0),
+        status: z.enum(BET_STATUS),
+      }),
+    )
+    .optional(),
+  date: z
+    .string()
+    .refine((val) => !isNaN(Date.parse(val)), {
+      message: 'Invalid date format',
+    })
+    .optional(),
+  bankrollId: z.string().uuid().optional(),
+});
+
 export type CreateBetInput = z.infer<typeof CreateBetSchema>;
+export type EditBetInput = z.infer<typeof EditBetSchema>;
 
 export const BetSchema = CreateBetSchema.extend({
   id: z.string().uuid(),

@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(bet, { status: 201 });
   } catch (error) {
-    console.error('Error in POST /api/bets', error);
+    console.error('Error in POST /api/bankrolls/[id]/bets', error);
     return new NextResponse(
       JSON.stringify({
         error: 'Something went wrong',

@@ -11,19 +11,19 @@ type EditBetWrapperProps = {
 
 export default function EditBetWrapper({ betId }: EditBetWrapperProps) {
   const router = useRouter();
+  const { data: bet, isLoading, isError } = useBet(betId);
   const {
     mutate: updateBet,
     isPending: isUpdating,
     error: updateError,
   } = useUpdateBet();
-  const { data: bet, isLoading, isError } = useBet(betId);
 
   const handleUpdate = (data: BetFormInput) => {
     updateBet(
-      { id: betId, ...data },
+      { ...data, id: betId },
       {
         onSuccess: () => {
-          router.back();
+          router.push(`/bankrolls/${bet?.bankrollId}/bets`);
         },
       },
     );

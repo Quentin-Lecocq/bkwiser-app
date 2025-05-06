@@ -15,6 +15,7 @@ const BetList: FC<BetListProps> = ({ id }) => {
   const pathname = usePathname();
   const { data: bets = [], isLoading } = useBets(id);
 
+  console.log({ bets });
   if (isLoading) return <p className="text-sm text-gray-400">Chargement...</p>;
   if (!bets.length)
     return <p className="text-sm text-gray-400">Aucun pari trouvé.</p>;
@@ -34,7 +35,7 @@ const BetList: FC<BetListProps> = ({ id }) => {
             >
               <div className="flex justify-between items-center mb-2 text-primary">
                 <span className="text-sm text-primary">
-                  {format(new Date(bet.date), 'MM/dd/yyyy')}
+                  {format(new Date(bet.date), 'dd/MM/yyyy')}
                 </span>
                 <div>
                   <Link href={`${pathname}/${bet.id}`}>
