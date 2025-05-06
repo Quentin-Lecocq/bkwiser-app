@@ -6,11 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    console.log({ body });
     const { error, data } = CreateBetSchema.safeParse(body);
-
-    console.log({ data });
-    console.log({ error });
 
     if (error) {
       return new NextResponse(
@@ -47,7 +43,7 @@ export async function GET(
     };
   },
 ) {
-  const { id } = params;
+  const { id } = await params;
 
   if (!id) {
     return NextResponse.json(

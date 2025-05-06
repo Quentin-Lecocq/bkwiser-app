@@ -17,21 +17,25 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 
-export function NavMain({
-  items,
-}: {
+type NavMainChildItem = {
+  title: string;
+  url: string;
+  isActive?: boolean;
+};
+
+type NavMainProps = {
   items: {
     title: string;
     url: string;
     icon?: LucideIcon;
     isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-      isActive?: boolean;
-    }[];
+    items?: NavMainChildItem[];
   }[];
-}) {
+};
+
+export function NavMain({
+  items,
+}: React.ComponentProps<typeof SidebarMenu> & NavMainProps) {
   return (
     <SidebarGroup>
       <SidebarMenu>
