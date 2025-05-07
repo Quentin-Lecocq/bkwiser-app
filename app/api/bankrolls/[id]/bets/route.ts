@@ -35,26 +35,15 @@ export async function POST(request: NextRequest) {
 
 export async function GET(
   req: NextRequest,
-  {
-    params,
-  }: {
-    params: {
-      id: string;
-    };
-  },
+  context: { params: { id: string } },
 ) {
-  const { id } = await params;
+  const { id: bankrollId } = context.params;
 
-  if (!id) {
-    return NextResponse.json(
-      {
-        error: 'Missing bankrollId',
-      },
-      { status: 400 },
-    );
+  if (!bankrollId) {
+    return NextResponse.json({ error: 'Missing bankrollId' }, { status: 400 });
   }
 
-  const bets = await getAllBets(id);
+  const bets = await getAllBets(bankrollId);
 
   return NextResponse.json(bets, { status: 200 });
 }

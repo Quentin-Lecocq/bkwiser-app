@@ -19,9 +19,11 @@ export const TransactionSchema = CreateTransactionSchema.extend({
 export type Transaction = z.infer<typeof TransactionSchema>;
 
 export const TransactionFormSchema = z.object({
-  type: z.enum(TRANSACTION_TYPES),
+  type: z.enum(TRANSACTION_TYPES, {
+    errorMap: () => ({ message: 'Please select a transaction type' }),
+  }),
   amount: z.number().gt(0),
-  transactionDate: z.string().optional(),
+  transactionDate: z.date(),
 });
 
 export type TransactionFormInput = z.infer<typeof TransactionFormSchema>;
