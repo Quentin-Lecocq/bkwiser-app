@@ -1,4 +1,4 @@
-import { getAllTransactions } from '@/core/use-cases/transactions/get-all-transactions';
+import { getAllBets } from '@/core/use-cases/bets/get-all-bets';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -16,9 +16,9 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const transactions = await getAllTransactions(bankrollId);
+  const bets = await getAllBets(bankrollId);
 
-  return NextResponse.json(transactions, {
+  return NextResponse.json(bets, {
     status: 200,
   });
 }

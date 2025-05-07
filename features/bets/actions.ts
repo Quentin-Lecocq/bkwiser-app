@@ -9,7 +9,7 @@ export async function createBetDB(data: BetFormInput & { bankrollId: string }) {
 }
 
 export async function getBetsDB(bankrollId: string): Promise<Bet[]> {
-  return httpRequest<Bet[]>(`/api/bankrolls/${bankrollId}/bets`);
+  return httpRequest<Bet[]>(`/api/bets?bankrollId=${bankrollId}`);
 }
 
 export async function updateBetDB(data: BetFormInput & { id: string }) {
